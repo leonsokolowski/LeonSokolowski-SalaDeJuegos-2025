@@ -12,11 +12,10 @@ export class QuienSoyComponent {
   githubService = inject(GithubService);
   userData : any;
 
-  nnOnInit() : void
+  ngOnInit() : void
   {
-    this.githubService.getUserData().subscribe(
-      (data) => this.userData = data,
-      (error) => console.error('Error al traer datos de GitHub', error)
-    );
+    this.githubService.getUserData().subscribe(data => {
+      this.userData = data;
+    });
   }
 }

@@ -1,0 +1,14 @@
+/* .nav-bar
+{
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    display: flex;
+    flex-direction: row;
+}
+.nav-bar a{
+    color: gray;
+    background-color: darkgoldenrod;
+    padding: 8px 16px;
+    border-radius: 5px;
+} */
