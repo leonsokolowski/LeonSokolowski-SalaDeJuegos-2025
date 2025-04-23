@@ -1,1 +1,9 @@
-<p>quien-soy works!</p>
+<div *ngIf="userData">
+    <h2>Hola, soy {{ userData.name }}</h2>
+    <img [src]="userData.avatar_url" alt="Avatar" width="150" style="border-radius: 50%;">
+    <p><strong>Usuario:</strong> {{ userData.login }}</p>
+    <p><strong>Bio:</strong> {{ userData.bio }}</p>
+    <p><strong>Ubicación:</strong> {{ userData.location }}</p>
+    <p><strong>Repositorios públicos:</strong> {{ userData.public_repos }}</p>
+    <a [href]="userData.html_url" target="_blank">Ver en GitHub</a>
+  </div>
