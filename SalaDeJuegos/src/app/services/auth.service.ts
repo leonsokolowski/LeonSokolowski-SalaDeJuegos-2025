@@ -39,6 +39,7 @@ export class AuthService {
   async iniciarSesion(correo:string, contraseña:string){
     const {data, error} = await this.sb.supabase.auth.signInWithPassword({email: correo, password: contraseña});
     console.log(data, error);
+    return {data, error}
   }
   //Cerrar sesión
   async cerrarSesion()

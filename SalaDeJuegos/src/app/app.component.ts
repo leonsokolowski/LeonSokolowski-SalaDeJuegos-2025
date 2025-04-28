@@ -13,4 +13,8 @@ import { AuthService } from './services/auth.service';
 export class AppComponent {
   title = 'SalaDeJuegos';
   auth= inject(AuthService);
+  logOut()
+  {
+    this.auth.cerrarSesion();
+  }
 }

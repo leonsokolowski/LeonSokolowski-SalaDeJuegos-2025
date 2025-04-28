@@ -146,6 +146,27 @@ label {
   box-shadow: none;
 }
 
+.login-link {
+  color: var(--rosa-fuerte);
+  text-align: center;
+  margin-top: 1.2rem;
+  font-size: 0.95rem;
+  text-decoration: none;
+  align-self: center;
+  font-weight: 500;
+  transition: color 0.2s ease, transform 0.2s ease;
+  cursor: pointer;
+}
+
+.login-link:hover {
+  color: var(--rojo-suave);
+  transform: translateY(-1px);
+  text-decoration: underline;
+}
+
+.login-link:active {
+  transform: translateY(0);
+}
 
 input[type="password"] {
   letter-spacing: 0.15rem;

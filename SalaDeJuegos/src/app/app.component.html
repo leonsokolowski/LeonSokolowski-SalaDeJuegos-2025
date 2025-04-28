@@ -1,13 +1,10 @@
 <nav class="nav-bar">
-        @if(auth.usuarioActual !== null)
-        {
-        <button routerLink="/home" routerLinkActive="active" title="Inicio" style="text-align: center;"><span class="material-icons">home</span></button>
-        <button routerLink="/quien-soy" routerLinkActive="active">¿Quién soy?</button>
-        }@else
-        {
-        <button routerLink="/login" routerLinkActive="active">Login</button>
-        <button routerLink="/registro" routerLinkActive="active">Registro</button>
-        }
+    @if(auth.usuarioActual !== null)
+    {
+    <button routerLink="/home" routerLinkActive="active" title="Inicio" style="text-align: center;"><span class="material-icons">home</span></button>
+    <button routerLink="/quien-soy" routerLinkActive="active">¿Quién soy?</button>
+    <button class="logout-btn" (click)="logOut()">Cerrar Sesión</button>
+    }
 </nav>
   
 <router-outlet />

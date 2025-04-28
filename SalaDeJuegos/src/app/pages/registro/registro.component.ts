@@ -4,13 +4,14 @@ import { Usuario } from '../../classes/usuario';
 import { AuthService } from '../../services/auth.service';
 import { DatabaseService } from '../../services/database.service';
 import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
 
 @Component({
   standalone: true,
   selector: 'app-registro',
   templateUrl: './registro.component.html',
   styleUrls: ['./registro.component.css'],
-  imports: [ReactiveFormsModule, CommonModule] // Importa los módulos necesarios aquí
+  imports: [ReactiveFormsModule, CommonModule, RouterLink]
 })
 export class RegistroComponent {
   private authService = inject(AuthService);
@@ -36,7 +37,6 @@ export class RegistroComponent {
     return this.registroForm.controls;
   }
 
-  // Método para verificar si el usuario ya existe en la base de datos
   async verificarUsuarioExistente(): Promise<boolean> {
     const { correo, nombre, apellido } = this.registroForm.value;
     const usuarios = await this.databaseService.listarUsuarios();
@@ -45,22 +45,19 @@ export class RegistroComponent {
     );
   }
 
-  // Método para crear la cuenta
   async registrar() {
     if (this.registroForm.invalid) {
       return;
     }
   
     const { correo, contraseña, confirmarContraseña, nombre, apellido, edad } = this.registroForm.value;
-  
-    // Verificar que las contraseñas coincidan
+
     if (contraseña !== confirmarContraseña) {
       this.registroForm.controls['confirmarContraseña'].setErrors({ noMatch: true });  // Añadir error a la confirmación de la contraseña
       this.errorMessage = 'Las contraseñas no coinciden.';
       return;
     }
   
-    // Verificar si el usuario ya existe
     const usuarioExistente = await this.verificarUsuarioExistente();
     if (usuarioExistente) {
       this.registroForm.controls['correo'].setErrors({ alreadyExists: true }); // Añadir error al correo si el usuario ya existe
@@ -69,11 +66,9 @@ export class RegistroComponent {
     }
   
     try {
-      // Crear cuenta en Supabase
-      await this.authService.crearCuenta(correo, contraseña);
-      // Agregar usuario a la base de datos
       const usuario: Usuario = { correo, nombre, apellido, edad };
       await this.databaseService.registrarUsuario(usuario);
+      await this.authService.crearCuenta(correo, contraseña);
       this.successMessage = 'Usuario registrado exitosamente.';
     } catch (error) {
       this.errorMessage = 'Hubo un error al registrar la cuenta.';

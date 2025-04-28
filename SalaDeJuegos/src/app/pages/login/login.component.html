@@ -1,1 +1,44 @@
-<p>login works!</p>
+<div class="container">
+    <h1 class="form-title">Iniciar Sesión</h1>
+
+    <div class="nav-bar">
+        <button type="button" (click)="completarAdmin1()">Acceso Admin 1</button>
+        <button type="button" (click)="completarAdmin2()">Acceso Admin 2</button>
+        <button type="button" (click)="completarAdmin3()">Acceso Admin 3</button>
+        <button type="button" (click)="limpiarCampos()">Borrar campos</button>
+      </div>
+    
+    <form [formGroup]="registroForm" (ngSubmit)="ingresar()">
+      <div class="form-group">
+        <label for="correo">Correo:</label>
+        <input id="correo" formControlName="correo" type="email" class="form-control" />
+        <div *ngIf="f['correo'].touched && f['correo'].invalid" class="error-container">
+          <small *ngIf="f['correo'].errors?.['required']">El correo es obligatorio.</small>
+          <small *ngIf="f['correo'].errors?.['email']">El formato de correo no es válido.</small>
+        </div>
+      </div>
+  
+      <div class="form-group">
+        <label for="contraseña">Contraseña:</label>
+        <input id="contraseña" formControlName="contraseña" type="password" class="form-control" />
+        <div *ngIf="f['contraseña'].touched && f['contraseña'].invalid" class="error-container">
+          <small *ngIf="f['contraseña'].errors?.['required']">La contraseña es obligatoria.</small>
+          <small *ngIf="f['contraseña'].errors?.['minlength']">La contraseña debe tener al menos 8 caracteres.</small>
+          <small *ngIf="f['contraseña'].errors?.['pattern']">La contraseña debe tener al menos una letra mayúscula y un número.</small>
+        </div>
+      </div>
+  
+      <div *ngIf="successMessage || errorMessage" class="alert-container">
+        <div *ngIf="successMessage" class="alert alert-success">
+          {{ successMessage }}
+        </div>
+  
+        <div *ngIf="errorMessage" class="alert alert-danger">
+          {{ errorMessage }}
+        </div>
+      </div>
+  
+      <button type="submit" class="btn btn-primary" [disabled]="registroForm.invalid">Iniciar Sesión</button>
+      <a routerLink="/registro" class="login-link">¿No tenés una cuenta? Registrate.</a>
+    </form>
+  </div>
