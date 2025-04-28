@@ -1,123 +1,173 @@
-/* Asegurarse de que se esté usando la misma fuente */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
 
-:root {
-    --rosa-claro: #ffe4ec;
-    --rosa: #ff9aa2;
-    --rosa-fuerte: #ff6f91;
-    --rojo-suave: #ff4b5c;
-    --rojo-oscuro: #c0392b;
-    --texto-oscuro: #2c2c2c;
-    --blanco: #fff;
+.container {
+  width: 450px;
+  background-color: var(--blanco);
+  border-radius: 15px;
+  padding: 2rem;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  margin: 2rem auto;
+  transition: height 0.3s ease; 
 }
 
-/* Estilo general para el formulario */
-.registro-container {
-    background-color: var(--blanco);
-    padding: 2rem;
-    border-radius: 10px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    max-width: 400px;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.form-title {
+  text-align: center;
+  color: var(--rosa-fuerte);
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  font-weight: 700;
+  font-size: 2rem;
+  border-bottom: 2px solid var(--rosa);
+  padding-bottom: 0.5rem;
 }
 
-/* Título del formulario */
-.registro-container h2 {
-    font-size: 1.5rem;
-    color: var(--rojo-oscuro);
-    margin-bottom: 1.5rem;
-    font-weight: 600;
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  width: 100%;
 }
 
-/* Estilo de los campos de formulario */
 .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+label {
+  font-weight: 600;
+  color: var(--texto-oscuro);
+  font-size: 0.95rem;
+}
+
+.form-control {
+  padding: 0.8rem 1rem;
+  border: 2px solid #e9e9e9;
+  border-radius: 10px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1rem;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: var(--rosa);
+  box-shadow: 0 0 0 3px rgba(255, 154, 162, 0.3);
+}
+
+.form-control:hover {
+  border-color: var(--rosa-fuerte);
+}
+
+.error-container {
+  color: var(--rojo-suave);
+  font-size: 0.8rem;
+  margin-top: 0.25rem;
+  font-weight: 400;
+  display: flex;
+  flex-direction: column;
+}
+
+.error-container small {
+  margin-bottom: 0.2rem;
+}
+
+.alert-container {
+  margin-bottom: 1rem;
+  width: 100%;
+  animation: slideDown 0.3s ease-out;
+}
+
+.alert {
+  padding: 0.8rem 1rem;
+  border-radius: 8px;
+  text-align: center;
+  font-size: 0.9rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.alert-success {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.alert-danger {
+  background-color: #f8d7da;
+  color: var(--rojo-oscuro);
+  border: 1px solid #f5c6cb;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+    max-height: 0;
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    max-height: 100px;
+  }
+}
+
+.btn {
+  padding: 0.8rem 2rem;
+  border: none;
+  border-radius: 10px;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  align-self: center;
+}
+
+.btn-primary {
+  background-color: var(--rosa-fuerte);
+  color: var(--blanco);
+  box-shadow: 0 4px 10px rgba(255, 111, 145, 0.3);
+  width: 100%;
+  max-width: 300px;
+}
+
+.btn-primary:hover {
+  background-color: var(--rojo-suave);
+  transform: translateY(-2px);
+}
+
+.btn-primary:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+
+input[type="password"] {
+  letter-spacing: 0.15rem;
+}
+
+
+@media (max-width: 768px) {
+  .container {
+    padding: 1.5rem;
+    margin: 1rem;
+    width: 90%;
+  }
+  
+  .form-control {
+    padding: 0.7rem;
+  }
+  
+  .btn {
     width: 100%;
-    margin-bottom: 1.2rem;
-}
-
-.form-group label {
-    font-size: 1rem;
-    color: var(--texto-oscuro);
-    display: block;
-    margin-bottom: 0.5rem;
-    font-weight: 600;
-}
-
-/* Estilo de los inputs */
-input {
-    width: 100%;
-    padding: 10px;
-    font-size: 1rem;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    outline: none;
-    transition: border-color 0.3s ease;
-}
-
-/* Bordes en rojo cuando hay un error */
-input.ng-invalid.ng-touched {
-    border-color: var(--rojo-suave);
-}
-
-/* Mensajes de error */
-.error {
-    font-size: 0.9rem;
-    color: var(--rojo-suave);
-    margin-top: 0.3rem;
-}
-
-.error-message {
-    background-color: var(--rojo-suave);
-    color: var(--blanco);
-    padding: 10px;
-    border-radius: 8px;
-    margin-bottom: 1rem;
-    text-align: center;
-    font-weight: 600;
-}
-
-/* Estilo del botón de submit */
-button {
-    background-color: var(--rosa);
-    color: var(--blanco);
-    padding: 12px 24px;
-    font-size: 1rem;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    width: 100%;
-    font-weight: 600;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-button:hover {
-    background-color: var(--rosa-fuerte);
-    transform: translateY(-2px);
-}
-
-button:disabled {
-    background-color: var(--rojo-oscuro);
-    cursor: not-allowed;
-}
-
-/* Ajustes para el formulario responsivo */
-@media (max-width: 600px) {
-    .registro-container {
-        padding: 1.5rem;
-    }
-
-    .registro-container h2 {
-        font-size: 1.3rem;
-    }
-
-    .form-group label {
-        font-size: 0.9rem;
-    }
-
-    input, button {
-        font-size: 0.9rem;
-    }
+  }
+  
+  .form-title {
+    font-size: 1.7rem;
+  }
 }

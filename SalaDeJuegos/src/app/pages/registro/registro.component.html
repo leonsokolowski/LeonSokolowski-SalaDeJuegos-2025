@@ -1,74 +1,73 @@
-<div class="registro-container">
-    <h2>Registro de Usuario</h2>
+<div class="container">
+  <h1 class="form-title">Registro</h1>
+  
+  <form [formGroup]="registroForm" (ngSubmit)="registrar()">
+    <div class="form-group">
+      <label for="correo">Correo:</label>
+      <input id="correo" formControlName="correo" type="email" class="form-control" />
+      <div *ngIf="f['correo'].touched && f['correo'].invalid" class="error-container">
+        <small *ngIf="f['correo'].errors?.['required']">El correo es obligatorio.</small>
+        <small *ngIf="f['correo'].errors?.['email']">El correo no es válido.</small>
+        <small *ngIf="f['correo'].errors?.['alreadyExists']">Ya existe un usuario con ese correo.</small>
+      </div>
+    </div>
 
-    <form [formGroup]="registroForm" (ngSubmit)="registrarse()">
-      
-      <!-- Mostrar mensaje de error -->
-      <div *ngIf="errorMensaje" class="error-message">
-        <p>{{ errorMensaje }}</p>
+    <div class="form-group">
+      <label for="contraseña">Contraseña:</label>
+      <input id="contraseña" formControlName="contraseña" type="password" class="form-control" />
+      <div *ngIf="f['contraseña'].touched && f['contraseña'].invalid" class="error-container">
+        <small *ngIf="f['contraseña'].errors?.['required']">La contraseña es obligatoria.</small>
+        <small *ngIf="f['contraseña'].errors?.['minlength']">La contraseña debe tener al menos 8 caracteres.</small>
+        <small *ngIf="f['contraseña'].errors?.['pattern']">La contraseña debe tener al menos una letra mayúscula y un número.</small>
       </div>
-  
-      <!-- Correo -->
-      <div class="form-group">
-        <label for="correo">Correo:</label>
-        <input id="correo" type="email" formControlName="correo" />
-        <div *ngIf="registroForm.get('correo')?.invalid && registroForm.get('correo')?.touched" class="error">
-          <small *ngIf="registroForm.get('correo')?.hasError('required')">El correo es obligatorio.</small>
-          <small *ngIf="registroForm.get('correo')?.hasError('email')">Por favor ingrese un correo válido.</small>
-        </div>
+    </div>
+
+    <div class="form-group">
+      <label for="confirmarContraseña">Confirmar Contraseña:</label>
+      <input id="confirmarContraseña" formControlName="confirmarContraseña" type="password" class="form-control" />
+      <div *ngIf="f['confirmarContraseña'].touched && f['confirmarContraseña'].invalid" class="error-container">
+        <small *ngIf="f['confirmarContraseña'].errors?.['required']">La confirmación de la contraseña es obligatoria.</small>
+        <small *ngIf="f['confirmarContraseña'].errors?.['noMatch']">Las contraseñas no coinciden.</small>
       </div>
-  
-      <!-- Contraseña -->
-      <div class="form-group">
-        <label for="contraseña">Contraseña:</label>
-        <input id="contraseña" type="password" formControlName="contraseña" />
-        <div *ngIf="registroForm.get('contraseña')?.invalid && registroForm.get('contraseña')?.touched" class="error">
-          <small *ngIf="registroForm.get('contraseña')?.hasError('required')">La contraseña es obligatoria.</small>
-          <small *ngIf="registroForm.get('contraseña')?.hasError('minlength')">La contraseña debe tener al menos 8 caracteres.</small>
-          <small *ngIf="registroForm.get('contraseña')?.hasError('pattern')">La contraseña debe tener al menos una mayúscula y un número.</small>
-        </div>
+    </div>
+
+    <div class="form-group">
+      <label for="nombre">Nombre:</label>
+      <input id="nombre" formControlName="nombre" type="text" class="form-control" />
+      <div *ngIf="f['nombre'].touched && f['nombre'].invalid" class="error-container">
+        <small *ngIf="f['nombre'].errors?.['required']">El nombre es obligatorio.</small>
+        <small *ngIf="f['nombre'].errors?.['minlength']">El nombre debe tener al menos 2 caracteres.</small>
       </div>
-  
-      <!-- Confirmar Contraseña -->
-      <div class="form-group">
-        <label for="confirmarContraseña">Confirmar Contraseña:</label>
-        <input id="confirmarContraseña" type="password" formControlName="confirmarContraseña" />
-        <div *ngIf="registroForm.hasError('passwordsMismatch') && registroForm.get('confirmarContraseña')?.touched" class="error">
-          <small>Las contraseñas no coinciden.</small>
-        </div>
+    </div>
+
+    <div class="form-group">
+      <label for="apellido">Apellido:</label>
+      <input id="apellido" formControlName="apellido" type="text" class="form-control" />
+      <div *ngIf="f['apellido'].touched && f['apellido'].invalid" class="error-container">
+        <small *ngIf="f['apellido'].errors?.['required']">El apellido es obligatorio.</small>
+        <small *ngIf="f['apellido'].errors?.['minlength']">El apellido debe tener al menos 2 caracteres.</small>
       </div>
-  
-      <!-- Nombre -->
-      <div class="form-group">
-        <label for="nombre">Nombre:</label>
-        <input id="nombre" type="text" formControlName="nombre" />
-        <div *ngIf="registroForm.get('nombre')?.invalid && registroForm.get('nombre')?.touched" class="error">
-          <small *ngIf="registroForm.get('nombre')?.hasError('required')">El nombre es obligatorio.</small>
-          <small *ngIf="registroForm.get('nombre')?.hasError('minlength')">El nombre debe tener al menos 2 caracteres.</small>
-        </div>
+    </div>
+
+    <div class="form-group">
+      <label for="edad">Edad:</label>
+      <input id="edad" formControlName="edad" type="number" class="form-control" />
+      <div *ngIf="f['edad'].touched && f['edad'].invalid" class="error-container">
+        <small *ngIf="f['edad'].errors?.['required']">La edad es obligatoria.</small>
+        <small *ngIf="f['edad'].errors?.['min']">Debes tener al menos 18 años.</small>
       </div>
-  
-      <!-- Apellido -->
-      <div class="form-group">
-        <label for="apellido">Apellido:</label>
-        <input id="apellido" type="text" formControlName="apellido" />
-        <div *ngIf="registroForm.get('apellido')?.invalid && registroForm.get('apellido')?.touched" class="error">
-          <small *ngIf="registroForm.get('apellido')?.hasError('required')">El apellido es obligatorio.</small>
-          <small *ngIf="registroForm.get('apellido')?.hasError('minlength')">El apellido debe tener al menos 2 caracteres.</small>
-        </div>
+    </div>
+
+    <div *ngIf="successMessage || errorMessage" class="alert-container">
+      <div *ngIf="successMessage" class="alert alert-success">
+        {{ successMessage }}
       </div>
-  
-      <!-- Edad -->
-      <div class="form-group">
-        <label for="edad">Edad:</label>
-        <input id="edad" type="number" formControlName="edad" />
-        <div *ngIf="registroForm.get('edad')?.invalid && registroForm.get('edad')?.touched" class="error">
-          <small *ngIf="registroForm.get('edad')?.hasError('required')">La edad es obligatoria.</small>
-          <small *ngIf="registroForm.get('edad')?.hasError('min')">La edad debe ser un número válido.</small>
-        </div>
+
+      <div *ngIf="errorMessage" class="alert alert-danger">
+        {{ errorMessage }}
       </div>
-  
-      <button type="submit" (click)="registrarse()">Registrarse</button>
-    </form>
+    </div>
+
+    <button type="submit" class="btn btn-primary" [disabled]="registroForm.invalid">Registrarse</button>
+  </form>
 </div>
-    
