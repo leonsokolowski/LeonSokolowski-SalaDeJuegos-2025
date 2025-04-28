@@ -1,0 +1,123 @@
+/* Asegurarse de que se esté usando la misma fuente */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+:root {
+    --rosa-claro: #ffe4ec;
+    --rosa: #ff9aa2;
+    --rosa-fuerte: #ff6f91;
+    --rojo-suave: #ff4b5c;
+    --rojo-oscuro: #c0392b;
+    --texto-oscuro: #2c2c2c;
+    --blanco: #fff;
+}
+
+/* Estilo general para el formulario */
+.registro-container {
+    background-color: var(--blanco);
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Título del formulario */
+.registro-container h2 {
+    font-size: 1.5rem;
+    color: var(--rojo-oscuro);
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+}
+
+/* Estilo de los campos de formulario */
+.form-group {
+    width: 100%;
+    margin-bottom: 1.2rem;
+}
+
+.form-group label {
+    font-size: 1rem;
+    color: var(--texto-oscuro);
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+}
+
+/* Estilo de los inputs */
+input {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+/* Bordes en rojo cuando hay un error */
+input.ng-invalid.ng-touched {
+    border-color: var(--rojo-suave);
+}
+
+/* Mensajes de error */
+.error {
+    font-size: 0.9rem;
+    color: var(--rojo-suave);
+    margin-top: 0.3rem;
+}
+
+.error-message {
+    background-color: var(--rojo-suave);
+    color: var(--blanco);
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    text-align: center;
+    font-weight: 600;
+}
+
+/* Estilo del botón de submit */
+button {
+    background-color: var(--rosa);
+    color: var(--blanco);
+    padding: 12px 24px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    width: 100%;
+    font-weight: 600;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+button:hover {
+    background-color: var(--rosa-fuerte);
+    transform: translateY(-2px);
+}
+
+button:disabled {
+    background-color: var(--rojo-oscuro);
+    cursor: not-allowed;
+}
+
+/* Ajustes para el formulario responsivo */
+@media (max-width: 600px) {
+    .registro-container {
+        padding: 1.5rem;
+    }
+
+    .registro-container h2 {
+        font-size: 1.3rem;
+    }
+
+    .form-group label {
+        font-size: 0.9rem;
+    }
+
+    input, button {
+        font-size: 0.9rem;
+    }
+}
