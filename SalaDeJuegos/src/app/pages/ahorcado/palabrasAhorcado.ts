@@ -1,3 +1,2 @@
 
-//export const LISTADO_PALABRAS = ["pedestal", "rodilleras", "calzoncillos", "navegar", "refrigerador", "colectivo", "florero", "rubor", "cuarto", "nostalgia", "piraña"]
-export const LISTADO_PALABRAS = ["calzoncillos"]
+export const LISTADO_PALABRAS = ["pedestal", "rodilleras", "calzoncillos", "navegar", "refrigerador", "colectivo", "florero", "rubor", "cuarto", "nostalgia", "piraña"]
