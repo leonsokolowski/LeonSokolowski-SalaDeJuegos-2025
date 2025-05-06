@@ -1,0 +1,31 @@
+<div class="contenedor">
+  <h2>Juego del Ahorcado</h2>
+
+  <div class="palabra">
+    <span *ngFor="let letra of letrasDescubiertas">{{ letra || '_' }}</span>
+  </div>
+
+  <div class="abecedario">
+    <button
+      *ngFor="let letra of abecedario"
+      [disabled]="letrasSeleccionadas.includes(letra) || letrasIncorrectas.includes(letra) || juegoTerminado"
+      [ngClass]="{
+        correcta: letrasSeleccionadas.includes(letra),
+        incorrecta: letrasIncorrectas.includes(letra)
+      }"
+      (click)="seleccionarLetra(letra)">
+      {{ letra }}
+    </button>
+  </div>
+
+  <div class="info">
+    <p>Letras incorrectas: {{ letrasIncorrectas.join(', ') }}</p>
+    <p>Intentos restantes: {{ intentosRestantes }}</p>
+  </div>
+
+  <div class="resultado" *ngIf="juegoTerminado">
+    <h3 *ngIf="victoria" class="gano">¡Ganaste! 🎉</h3>
+    <h3 *ngIf="!victoria" class="perdio">¡Perdiste! 😢 La palabra era: {{ palabraSecreta }}</h3>
+    <button (click)="iniciarJuego()">Jugar otra vez</button>
+  </div>
+</div>

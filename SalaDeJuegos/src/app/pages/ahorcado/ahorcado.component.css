@@ -1,0 +1,57 @@
+.contenedor {
+    text-align: center;
+    font-family: Arial, sans-serif;
+    max-width: 600px;
+    margin: auto;
+  }
+  
+  .palabra span {
+    display: inline-block;
+    font-size: 2rem;
+    margin: 0 5px;
+    border-bottom: 2px solid black;
+    width: 30px;
+    height: 40px;
+    line-height: 40px;
+  }
+  
+  .abecedario {
+    margin-top: 20px;
+  }
+  
+  .abecedario button {
+    margin: 4px;
+    padding: 10px;
+    font-size: 1rem;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+  }
+  
+  .correcta {
+    background-color: #8bc34a;
+    color: white;
+  }
+  
+  .incorrecta {
+    background-color: #f44336;
+    color: white;
+  }
+  
+  .info {
+    margin-top: 20px;
+    font-weight: bold;
+  }
+  
+  .resultado {
+    margin-top: 30px;
+  }
+  
+  .resultado .gano {
+    color: green;
+  }
+  
+  .resultado .perdio {
+    color: red;
+  }
+  

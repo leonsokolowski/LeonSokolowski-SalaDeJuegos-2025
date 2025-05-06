@@ -22,8 +22,12 @@ export class AuthService {
         this.router.navigateByUrl("/login");
       }else{ //si hay sesion
         this.usuarioActual = session.user;
-        //redigir al home
-        this.router.navigateByUrl("/home");
+        const currentUrl = this.router.url;
+
+        if (currentUrl === '/login' || currentUrl === '/registro' || currentUrl === '/') {
+          //redigir al home
+          this.router.navigateByUrl("/home");
+        }
       }
     });
    }
