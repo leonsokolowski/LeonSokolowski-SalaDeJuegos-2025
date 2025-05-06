@@ -3,13 +3,14 @@ import { CommonModule } from '@angular/common';
 import { LISTADO_PALABRAS as listado_palabras } from './palabrasAhorcado';
 import { AuthService } from '../../services/auth.service';
 import { DatabaseService } from '../../services/database.service';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-ahorcado',
   standalone: true,
   templateUrl: './ahorcado.component.html',
   styleUrls: ['./ahorcado.component.css'],
-  imports: [CommonModule] // Necesario para *ngFor, *ngIf, etc.
+  imports: [CommonModule, FormsModule] // Necesario para *ngFor, *ngIf, etc.
 })
 export class AhorcadoComponent {
   auth = inject(AuthService);
@@ -25,6 +26,8 @@ export class AhorcadoComponent {
   juegoTerminado: boolean = false;
   victoria: boolean = false;
   tiempoInicio: number = 0;
+  palabraAdivinada: string = '';
+  rutaImagenAhorcado: string = '';
 
   ngOnInit(): void {
     this.iniciarJuego();
@@ -40,6 +43,7 @@ export class AhorcadoComponent {
     this.juegoTerminado = false;
     this.victoria = false;
     this.tiempoInicio = Date.now();
+    this.actualizarImagen();
   }
 
   obtenerPalabraAleatoria(): string {
@@ -83,6 +87,27 @@ export class AhorcadoComponent {
       this.victoria = false;
       this.registrarResultado();
     }
+
+    this.actualizarImagen();
+  }
+
+  arriesgarPalabra(): void {
+    if (this.juegoTerminado || !this.palabraAdivinada.trim()) {
+      return;
+    }
+  
+    const intento = this.palabraAdivinada.toUpperCase();
+    if (intento === this.palabraSecreta) {
+      this.letrasDescubiertas = [...this.letrasPalabra];
+      this.victoria = true;
+    } else {
+      this.intentosRestantes = 0;
+      this.victoria = false;
+    }
+  
+    this.juegoTerminado = true;
+    this.registrarResultado();
+    this.actualizarImagen();
   }
 
   registrarResultado(): void {
@@ -100,5 +125,21 @@ export class AhorcadoComponent {
     console.log('Resultado del juego:', resultado);
 
     // TODO: Guardar en Supabase usando `this.db` cuando implementes ese método.
+  }
+  
+  private actualizarImagen(): void {
+    if (this.juegoTerminado && !this.victoria && this.intentosRestantes === 0) {
+      // Mostrar "intentos_restantes_0" primero
+      this.rutaImagenAhorcado = 'assets/ahorcado/intentos_restantes_0.png';
+      
+      // Luego de un segundo, mostrar "derrota.png"
+      setTimeout(() => {
+        this.rutaImagenAhorcado = 'assets/ahorcado/derrota.png';
+      }, 1000);
+    } else if (this.juegoTerminado && this.victoria) {
+      this.rutaImagenAhorcado = 'assets/ahorcado/victoria.png';
+    } else {
+      this.rutaImagenAhorcado = `assets/ahorcado/intentos_restantes_${this.intentosRestantes}.png`;
+    }
   }
 }

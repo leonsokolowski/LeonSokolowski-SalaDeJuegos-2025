@@ -1,57 +1,329 @@
+/* Estilos generales para el contenedor del juego */
 .contenedor {
-    text-align: center;
-    font-family: Arial, sans-serif;
-    max-width: 600px;
-    margin: auto;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  background-color: var(--rosa-claro);
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 2400px;
+  height: 100%;
+  min-height: 80vh;
+  gap: 2rem;
+  animation: contenedorAnim 1s ease-in-out;
+}
+
+/* Animación para el contenedor */
+@keyframes contenedorAnim {
+  from {
+    opacity: 0;
   }
-  
-  .palabra span {
-    display: inline-block;
-    font-size: 2rem;
-    margin: 0 5px;
-    border-bottom: 2px solid black;
-    width: 30px;
-    height: 40px;
-    line-height: 40px;
+  to {
+    opacity: 1;
   }
-  
+}
+
+/* Tarjeta izquierda: teclado y controles */
+.tarjeta-interaccion {
+  width: 600px;
+  height: 750px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: var(--blanco);
+  padding: 1.5rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  animation: tarjetaAnim 1s ease-in-out;
+}
+
+/* Animación para la tarjeta de interacción */
+@keyframes tarjetaAnim {
+  from {
+    transform: translateX(-50%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Tarjeta derecha: muñequito del ahorcado */
+.tarjeta-imagen {
+  width: 600px;
+  height: 500px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--blanco);
+  padding: 1.5rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  animation: tarjetaImagenAnim 1s ease-in-out;
+}
+
+/* Animación para la tarjeta de imagen */
+@keyframes tarjetaImagenAnim {
+  from {
+    transform: translateY(50%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.imagen-ahorcado img {
+  width: 250px;
+  height: auto;
+  margin-top: -60px;
+  margin-left: -10px;
+  opacity: 0;  /* Empieza invisible */
+  animation: fadeIn 1s ease-out forwards;  /* Fade in general */
+}
+
+
+/* Título principal */
+h2 {
+  font-size: 2rem;
+  font-weight: 600;
+  color: var(--rojo-oscuro);
+  margin: 1rem 0;
+  animation: tituloAnim 1s ease-in-out;
+}
+
+/* Animación para el título */
+@keyframes tituloAnim {
+  from {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Estilo de la palabra (letras descubiertas) */
+.palabra {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  font-size: 2rem;
+  font-weight: 600;
+  color: var(--rojo-suave);
+  margin-bottom: 2rem;
+  animation: palabraAnim 1s ease-in-out;
+}
+
+/* Animación para la palabra */
+@keyframes palabraAnim {
+  from {
+    transform: translateX(-50%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Estilo para los botones del abecedario */
+.abecedario {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 1rem;
+  width: 100%;
+  max-width: 450px;
+  margin-bottom: 2rem;
+}
+
+.abecedario button {
+  background-color: var(--rosa);
+  color: var(--blanco);
+  border: none;
+  padding: 10px;
+  font-size: 1.2rem;
+  font-weight: 600;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.abecedario button:hover {
+  background-color: var(--rosa-fuerte);
+  transform: translateY(-2px);
+}
+
+.abecedario button.correcta {
+  background-color: var(--rosa-fuerte);
+  color: var(--blanco);
+}
+
+.abecedario button.incorrecta {
+  background-color: var(--rojo-oscuro);
+  color: var(--blanco);
+  text-decoration: line-through;
+}
+
+.abecedario button:disabled {
+  background-color: var(--rojo-suave);
+  cursor: not-allowed;
+}
+
+/* Contenedor para arriesgar palabra */
+.arriesgar-contenedor {
+  text-align: center;
+  margin-top: 2rem;
+  width: 100%;
+  animation: arriesgarAnim 1s ease-in-out;
+}
+
+/* Animación para el contenedor de arriesgar */
+@keyframes arriesgarAnim {
+  from {
+    transform: translateY(50%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.arriesgar-contenedor p {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--rojo-oscuro);
+}
+
+.arriesgar-contenedor input {
+  padding: 10px;
+  font-size: 1rem;
+  border: 2px solid var(--rojo-suave);
+  border-radius: 5px;
+  margin-top: 0.5rem;
+  width: 80%;
+  max-width: 300px;
+  margin-bottom: 1rem;
+}
+
+.arriesgar-contenedor button {
+  height: 42px; 
+  background-color: var(--rojo-suave);
+  color: var(--blanco);
+  border: none;
+  padding: 10px 20px;
+  font-weight: 600;
+  font-size: 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.arriesgar-contenedor button:hover {
+  background-color: var(--rojo-oscuro);
+  transform: translateY(-2px);
+}
+
+.arriesgar-contenedor button:disabled {
+  background-color: var(--rojo-suave);
+  cursor: not-allowed;
+}
+
+/* Estilo para la sección de información */
+.info {
+  text-align: center;
+  font-size: 1.2rem;
+  color: var(--texto-oscuro);
+  margin-top: 1.5rem;
+  animation: infoAnim 1s ease-in-out;
+}
+
+/* Animación para la sección de información */
+@keyframes infoAnim {
+  from {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Resultado del juego */
+.resultado {
+  text-align: center;
+  margin-top: 2rem;
+  animation: resultadoAnim 1s ease-in-out;
+}
+
+/* Animación para el resultado del juego */
+@keyframes resultadoAnim {
+  from {
+    transform: translateY(-30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.resultado h3 {
+  font-size: 1.8rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.resultado .gano {
+  color: var(--rosa-fuerte);
+}
+
+.resultado .perdio {
+  color: var(--rojo-oscuro);
+}
+
+.resultado button {
+  background-color: var(--rosa);
+  color: var(--blanco);
+  border: none;
+  padding: 10px 20px;
+  font-weight: 600;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.resultado button:hover {
+  background-color: var(--rosa-fuerte);
+  transform: translateY(-2px);
+}
+
+/* Estilos responsivos */
+@media (max-width: 768px) {
+  .contenedor {
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .tarjeta-interaccion,
+  .tarjeta-imagen {
+    width: 100%;
+    max-width: 500px;
+    height: auto;
+  }
+
   .abecedario {
-    margin-top: 20px;
+    grid-template-columns: repeat(5, 1fr);
   }
-  
-  .abecedario button {
-    margin: 4px;
-    padding: 10px;
-    font-size: 1rem;
-    width: 40px;
-    height: 40px;
-    cursor: pointer;
+
+  .arriesgar-contenedor input {
+    width: 90%;
   }
-  
-  .correcta {
-    background-color: #8bc34a;
-    color: white;
-  }
-  
-  .incorrecta {
-    background-color: #f44336;
-    color: white;
-  }
-  
-  .info {
-    margin-top: 20px;
-    font-weight: bold;
-  }
-  
-  .resultado {
-    margin-top: 30px;
-  }
-  
-  .resultado .gano {
-    color: green;
-  }
-  
-  .resultado .perdio {
-    color: red;
-  }
-  
+}

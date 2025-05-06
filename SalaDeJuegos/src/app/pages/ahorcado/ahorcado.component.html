@@ -1,31 +1,52 @@
 <div class="contenedor">
-  <h2>Juego del Ahorcado</h2>
+  <!-- Tarjeta de Interacción (Teclado, palabras y controles) -->
+  <div class="tarjeta-interaccion">
+    <h2>Juego del Ahorcado</h2>
+    
+    <!-- Palabra (letras descubiertas) -->
+    <div class="palabra">
+      <span *ngFor="let letra of letrasDescubiertas">{{ letra || '_' }}</span>
+    </div>
 
-  <div class="palabra">
-    <span *ngFor="let letra of letrasDescubiertas">{{ letra || '_' }}</span>
+    <!-- Teclado de letras -->
+    <div class="abecedario">
+      <button
+        *ngFor="let letra of abecedario"
+        [disabled]="letrasSeleccionadas.includes(letra) || letrasIncorrectas.includes(letra) || juegoTerminado"
+        [ngClass]="{
+          correcta: letrasSeleccionadas.includes(letra),
+          incorrecta: letrasIncorrectas.includes(letra)
+        }"
+        (click)="seleccionarLetra(letra)">
+        {{ letra }}
+      </button>
+    </div>
+
+    <!-- Opción para arriesgar la palabra -->
+    <div class="arriesgar-contenedor" *ngIf="!juegoTerminado">
+      <p><strong>¿Querés arriesgar la palabra completa?</strong></p>
+      <input [(ngModel)]="palabraAdivinada" type="text" placeholder="Tu intento..." />
+      <button (click)="arriesgarPalabra()">Arriesgar</button>
+    </div>
+
+    <!-- Información adicional -->
+    <div class="info">
+      <p>Letras incorrectas: {{ letrasIncorrectas.join(', ') }}</p>
+      <p>Intentos restantes: {{ intentosRestantes }}</p>
+    </div>
+
+    <!-- Resultado del juego -->
+    <div class="resultado" *ngIf="juegoTerminado">
+      <h3 *ngIf="victoria" class="gano">¡Ganaste! 🎉</h3>
+      <h3 *ngIf="!victoria" class="perdio">¡Perdiste! 😢 La palabra era: {{ palabraSecreta }}</h3>
+      <button (click)="iniciarJuego()">Jugar otra vez</button>
+    </div>
   </div>
 
-  <div class="abecedario">
-    <button
-      *ngFor="let letra of abecedario"
-      [disabled]="letrasSeleccionadas.includes(letra) || letrasIncorrectas.includes(letra) || juegoTerminado"
-      [ngClass]="{
-        correcta: letrasSeleccionadas.includes(letra),
-        incorrecta: letrasIncorrectas.includes(letra)
-      }"
-      (click)="seleccionarLetra(letra)">
-      {{ letra }}
-    </button>
-  </div>
-
-  <div class="info">
-    <p>Letras incorrectas: {{ letrasIncorrectas.join(', ') }}</p>
-    <p>Intentos restantes: {{ intentosRestantes }}</p>
-  </div>
-
-  <div class="resultado" *ngIf="juegoTerminado">
-    <h3 *ngIf="victoria" class="gano">¡Ganaste! 🎉</h3>
-    <h3 *ngIf="!victoria" class="perdio">¡Perdiste! 😢 La palabra era: {{ palabraSecreta }}</h3>
-    <button (click)="iniciarJuego()">Jugar otra vez</button>
+  <!-- Tarjeta de Imagen (muñequito del ahorcado) -->
+  <div class="tarjeta-imagen">
+    <div class="imagen-ahorcado">
+      <img [src]="rutaImagenAhorcado" alt="Estado del ahorcado" />
+    </div>
   </div>
 </div>
