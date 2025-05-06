@@ -82,8 +82,6 @@
   height: auto;
   margin-top: -60px;
   margin-left: -10px;
-  opacity: 0;  /* Empieza invisible */
-  animation: fadeIn 1s ease-out forwards;  /* Fade in general */
 }
 
 

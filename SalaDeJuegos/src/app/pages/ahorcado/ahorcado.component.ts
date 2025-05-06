@@ -28,6 +28,7 @@ export class AhorcadoComponent {
   tiempoInicio: number = 0;
   palabraAdivinada: string = '';
   rutaImagenAhorcado: string = '';
+  puntaje: number = 0;
 
   ngOnInit(): void {
     this.iniciarJuego();
@@ -43,6 +44,8 @@ export class AhorcadoComponent {
     this.juegoTerminado = false;
     this.victoria = false;
     this.tiempoInicio = Date.now();
+    this.palabraAdivinada = '';
+    this.puntaje = 0;
     this.actualizarImagen();
   }
 
@@ -112,19 +115,40 @@ export class AhorcadoComponent {
 
   registrarResultado(): void {
     const tiempoFinal = (Date.now() - this.tiempoInicio) / 1000;
-
+  
+    if (this.victoria) {
+      this.puntaje = 100;
+  
+      // Bonificación por rapidez
+      if (tiempoFinal < 30) {
+        this.puntaje += 50;
+      } else if (tiempoFinal < 60) {
+        this.puntaje += 25;
+      }
+  
+      // Penalización por errores
+      this.puntaje -= this.letrasIncorrectas.length * 5;
+  
+      // ⚡️ Bonificación por palabra larga
+      if (this.palabraSecreta.length > 8) {
+        this.puntaje *= 2;
+      }
+    } else {
+      this.puntaje = 0;
+    }
+  
     const resultado = {
       usuario: this.auth.usuarioActual?.email ?? 'desconocido',
       palabra: this.palabraSecreta,
       aciertos: this.letrasSeleccionadas.length,
       errores: this.letrasIncorrectas.length,
       victoria: this.victoria,
-      tiempo: tiempoFinal
+      tiempo: tiempoFinal,
+      puntaje: this.puntaje
     };
-
+    
+    this.db.registrarResultadoAhorcado(resultado);
     console.log('Resultado del juego:', resultado);
-
-    // TODO: Guardar en Supabase usando `this.db` cuando implementes ese método.
   }
   
   private actualizarImagen(): void {
