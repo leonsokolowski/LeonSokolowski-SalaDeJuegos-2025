@@ -5,6 +5,7 @@ import { HomeComponent } from './pages/home/home.component';
 import { QuienSoyComponent } from './pages/quien-soy/quien-soy.component';
 import { ErrorComponent } from './pages/error/error.component';
 import { AhorcadoComponent } from './pages/ahorcado/ahorcado.component';
+import { MayorMenorComponent } from './pages/mayor-menor/mayor-menor.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -13,5 +14,6 @@ export const routes: Routes = [
   { path: 'home', component: HomeComponent, title: 'Pagina Principal' },
   { path: 'quien-soy', component: QuienSoyComponent, title: 'Quien Soy' },
   { path: 'ahorcado', component: AhorcadoComponent },
+  { path: 'mayor-menor', component: MayorMenorComponent },
   { path: '**', component: ErrorComponent, title: 'ERROR' },
 ];

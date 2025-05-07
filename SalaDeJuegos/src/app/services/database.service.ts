@@ -38,4 +38,19 @@ export class DatabaseService {
       console.log("Resultado registrado:", data);
     }
   }
+
+  async registrarResultadoMayorMenor(resultado: {
+    usuario: string;
+    aciertos: number;
+    errores: number;
+    total_cartas: number;
+    fecha: string;
+  }) {
+    const { data, error } = await this.sb.supabase.from('resultados_mayor_menor').insert([resultado]);
+    if (error) {
+      console.error("Error al registrar resultado:", error);
+    } else {
+      console.log("Resultado registrado:", data);
+    }
+  }
 }

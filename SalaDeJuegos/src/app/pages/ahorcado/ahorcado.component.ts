@@ -10,7 +10,7 @@ import { FormsModule } from '@angular/forms';
   standalone: true,
   templateUrl: './ahorcado.component.html',
   styleUrls: ['./ahorcado.component.css'],
-  imports: [CommonModule, FormsModule] // Necesario para *ngFor, *ngIf, etc.
+  imports: [CommonModule, FormsModule] 
 })
 export class AhorcadoComponent {
   auth = inject(AuthService);
@@ -119,17 +119,14 @@ export class AhorcadoComponent {
     if (this.victoria) {
       this.puntaje = 100;
   
-      // Bonificación por rapidez
       if (tiempoFinal < 30) {
         this.puntaje += 50;
       } else if (tiempoFinal < 60) {
         this.puntaje += 25;
       }
   
-      // Penalización por errores
       this.puntaje -= this.letrasIncorrectas.length * 5;
   
-      // ⚡️ Bonificación por palabra larga
       if (this.palabraSecreta.length > 8) {
         this.puntaje *= 2;
       }
@@ -153,10 +150,8 @@ export class AhorcadoComponent {
   
   private actualizarImagen(): void {
     if (this.juegoTerminado && !this.victoria && this.intentosRestantes === 0) {
-      // Mostrar "intentos_restantes_0" primero
       this.rutaImagenAhorcado = 'assets/ahorcado/intentos_restantes_0.png';
       
-      // Luego de un segundo, mostrar "derrota.png"
       setTimeout(() => {
         this.rutaImagenAhorcado = 'assets/ahorcado/derrota.png';
       }, 1000);

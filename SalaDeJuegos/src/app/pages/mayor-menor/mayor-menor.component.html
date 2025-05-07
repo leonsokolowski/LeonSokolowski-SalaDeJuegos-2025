@@ -1,0 +1,40 @@
+<!-- Pop-up de inicio (antes de comenzar el juego) -->
+<div *ngIf="!juegoIniciado" class="popup">
+    <div class="popup-contenido">
+      <p>¡¿Estás listo?!</p>
+      <button (click)="iniciarJuego()">Comenzar</button>
+    </div>
+  </div>
+  
+  <!-- Juego en sí -->
+  <div *ngIf="juegoIniciado && !juegoTerminado" class="container">
+    <!-- Carta actual -->
+    <div class="carta">
+      <img [src]="getImagenCarta(cartaActual)" alt="{{cartaActual?.numero + ' de ' + cartaActual?.palo}}">
+    </div>
+  
+    <!-- Contador de tiempo -->
+    <div class="contador">
+      Tiempo restante: {{ tiempoRestante }}s
+    </div>
+  
+    <!-- Botones para mayor o menor -->
+    <div class="botones">
+      <button (click)="jugar('mayor')" [disabled]="tiempoRestante === 0">Mayor</button>
+      <button (click)="jugar('menor')" [disabled]="tiempoRestante === 0">Menor</button>
+    </div>
+  
+    <!-- Puntaje -->
+    <div class="puntaje">
+      <span>Aciertos: {{ aciertos }}</span>
+      <span>Errores: {{ errores }}</span>
+    </div>
+  </div>
+  
+  <!-- Resultado final -->
+  <div *ngIf="juegoTerminado" class="resultado-final">
+    <p>Juego terminado</p>
+    <p>Puntaje: {{ aciertos * 10 }}</p>
+    <button (click)="iniciarJuego()">Volver a jugar</button>
+  </div>
+  
