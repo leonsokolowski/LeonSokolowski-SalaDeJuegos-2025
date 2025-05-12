@@ -1,0 +1,27 @@
+<div class="quien-es-quien-pregunta-container">
+  <label for="atributo">Seleccioná una característica:</label>
+  <select id="atributo" [(ngModel)]="atributoSeleccionado" (change)="actualizarValores()">
+    <option value="">-- Atributo --</option>
+    <option *ngFor="let p of preguntasPosibles" [value]="p.atributo">
+      {{ p.atributo | titlecase }}
+    </option>
+  </select>
+
+  <select [(ngModel)]="valorSeleccionado" [disabled]="!valoresDisponibles.length">
+    <option value="">-- Valor --</option>
+    <option *ngFor="let val of valoresDisponibles" [ngValue]="val">
+      {{ val }}
+    </option>
+  </select>
+
+  <button (click)="preguntar()" [disabled]="!atributoSeleccionado || valorSeleccionado === null">Preguntar</button>
+</div>
+
+<hr />
+
+<div class="quien-es-quien-grilla-personas">
+  <div class="quien-es-quien-carta" *ngFor="let persona of personasFiltradas">
+    <img [src]="'assets/quien_es_quien/' + persona.nombre.toLowerCase() + '.png'" [alt]="persona.nombre" />
+    <p>{{ persona.nombre }}</p>
+  </div>
+</div>

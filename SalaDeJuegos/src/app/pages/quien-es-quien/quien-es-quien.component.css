@@ -1,0 +1,34 @@
+/* Este comentario fuerza a Angular a reconocer este archivo */
+:host {
+  display: block;
+}
+
+.pregunta-container {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.grilla-personas {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr); /* 5 columnas fijas */
+  gap: 15px;
+  padding: 10px;
+  width: 100%;
+  max-width: 900px;
+  margin: auto;
+  box-sizing: border-box;
+}
+
+.carta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.carta img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
