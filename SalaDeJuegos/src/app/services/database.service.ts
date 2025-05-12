@@ -1,18 +1,26 @@
 import { inject, Injectable } from '@angular/core';
 import { SupabaseService } from './supabase.service';
 import { Usuario } from '../classes/usuario';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DatabaseService {
   sb = inject(SupabaseService);
+  auth = inject(AuthService);
 
   async listarUsuarios() {
     const { data, error } = await this.sb.supabase.from('usuarios').select('*');
     const usuarios = data as Usuario[];
     console.log(usuarios);
     return usuarios;
+  }
+
+  async traerUsuarioActual()
+  {
+    const { data, error } = await this.sb.supabase.from("usuarios").select("*").eq("correo", this.auth.usuarioActual?.email);
+    return data;
   }
 
   async registrarUsuario(usuario: Usuario) {
@@ -40,11 +48,11 @@ export class DatabaseService {
   }
 
   async registrarResultadoMayorMenor(resultado: {
-    usuario: string;
+    id_usuario: number;
     aciertos: number;
     errores: number;
     total_cartas: number;
-    fecha: string;
+    puntaje : number;
   }) {
     const { data, error } = await this.sb.supabase.from('resultados_mayor_menor').insert([resultado]);
     if (error) {

@@ -13,9 +13,10 @@ import { AuthService } from '../../services/auth.service';
 })
 export class MayorMenorComponent implements OnInit {
 
-  private databaseService = inject(DatabaseService);
+  private db = inject(DatabaseService);
   private authService = inject(AuthService);
 
+  usuario: any = null;
   mazo: Carta[] = [];
   cartaActual: Carta | null = null;
   indexCartaActual: number = 0;
@@ -25,11 +26,14 @@ export class MayorMenorComponent implements OnInit {
   tiempoRestante: number = 5;
   juegoTerminado: boolean = false;
   juegoIniciado: boolean = false;  // Control de si el juego ha comenzado
-
+  puntaje : number = 0;
   private intervaloTimer: any;  // Para almacenar el intervalo del temporizador
 
   ngOnInit(): void {
-    // Iniciar el juego desde aquí no, sino cuando el usuario lo decida
+    setTimeout(async () => {
+      const resultado = await this.db.traerUsuarioActual();
+      this.usuario = resultado && resultado.length > 0 ? resultado[0] : null;
+    }, 20);
   }
 
   private crearMazo(): Carta[] {
@@ -54,6 +58,7 @@ export class MayorMenorComponent implements OnInit {
     this.indexCartaActual = 0;
     this.aciertos = 0;
     this.errores = 0;
+    this.puntaje = 0
     this.juegoTerminado = false;
     this.juegoIniciado = true;  // Marcamos que el juego ha comenzado
     this.cartaActual = this.mazo[this.indexCartaActual];
@@ -91,15 +96,15 @@ export class MayorMenorComponent implements OnInit {
 
   private finalizarJuego(): void {
     this.juegoTerminado = true;
-
+    this.puntaje = this.aciertos * 10;
     const usuario = this.authService.usuarioActual;
 
-    this.databaseService.registrarResultadoMayorMenor({
-      usuario: usuario?.email ?? 'anónimo',
+    this.db.registrarResultadoMayorMenor({
+      id_usuario: this.usuario.id ?? 'desconocido',
       aciertos: this.aciertos,
       errores: this.errores,
       total_cartas: this.mazo.length,
-      fecha: new Date().toISOString(),
+      puntaje : this.puntaje
     });
   }
 

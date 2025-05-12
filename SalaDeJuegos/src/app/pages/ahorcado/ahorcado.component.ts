@@ -29,11 +29,16 @@ export class AhorcadoComponent {
   palabraAdivinada: string = '';
   rutaImagenAhorcado: string = '';
   puntaje: number = 0;
+  mostrarPopupInicio: boolean = true;
 
   ngOnInit(): void {
-    this.iniciarJuego();
   }
 
+  comenzarJuego(): void {
+    this.mostrarPopupInicio = false;
+    this.iniciarJuego();
+  }
+  
   iniciarJuego(): void {
     this.palabraSecreta = this.obtenerPalabraAleatoria().toUpperCase();
     this.letrasPalabra = this.palabraSecreta.split('');
@@ -46,6 +51,7 @@ export class AhorcadoComponent {
     this.tiempoInicio = Date.now();
     this.palabraAdivinada = '';
     this.puntaje = 0;
+
     this.actualizarImagen();
   }
 
