@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { Persona } from './persona';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { DatabaseService } from '../../services/database.service';
 
 @Component({
   selector: 'app-quien-es-quien',
@@ -10,6 +11,8 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './quien-es-quien.component.css'
 })
 export class QuienEsQuienComponent implements OnInit {
+  private db = inject(DatabaseService);
+  usuario: any = null;
   personas: Persona[] = [];
   personaSeleccionada!: Persona;
   personaNombre: string = '';
@@ -50,6 +53,10 @@ export class QuienEsQuienComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    setTimeout(async () => {
+      const resultado = await this.db.traerUsuarioActual();
+      this.usuario = resultado && resultado.length > 0 ? resultado[0] : null;
+    }, 500);
     this.inicializarPersonas();
     this.iniciarJuego();
   }
@@ -57,22 +64,22 @@ export class QuienEsQuienComponent implements OnInit {
   inicializarPersonas(): void {
     // Creamos las 20 personas con diferentes características
     this.personas = [
-      new Persona('ale', 'femenino', 'rulos', 'medio', 'rubio', 'celestes', 'palido', true),
+      new Persona('ale', 'femenino', 'rizado', 'medio', 'rubio', 'claros', 'palido', true),
       new Persona('beni', 'masculino', 'lacio', 'corto', 'rubio', 'marrones', 'palido', false),
-      new Persona('borque', 'femenino', 'ondulado', 'largo', 'castño', 'marrones', 'medio', false),
+      new Persona('borque', 'femenino', 'ondulado', 'largo', 'castaño', 'marrones', 'medio', false),
       new Persona('clara', 'femenino', 'lacio', 'medio', 'castaño', 'marrones', 'medio', false),
-      new Persona('fer', 'masculino', 'lacio', 'corto', 'negro', 'negros', 'oscuro', false),
+      new Persona('fer', 'masculino', 'lacio', 'corto', 'negro', 'marrones', 'oscuro', false),
       new Persona('juli', 'femenino', 'lacio', 'largo', 'castaño', 'marrones', 'medio', true),
-      new Persona('laura', 'femenino', 'rulos', 'medio', 'castaño', 'marrones', 'oscuro', true),
-      new Persona('lautaro', 'masculino', 'lacio', 'corto', 'negro', 'marrones', 'oscuro', false),
-      new Persona('leon', 'masculino', 'rulos', 'corto', 'rubio', 'verdes', 'palido', false),
-      new Persona('lucas', 'masculino', 'ondulado', 'corto', 'negro', 'celestes', 'medio', false),
-      new Persona('lucila', 'femenino', 'rulos', 'medio', 'negro', 'marrones', 'palido', false),
+      new Persona('laura', 'femenino', 'rizado', 'medio', 'castaño', 'marrones', 'oscuro', true),
+      new Persona('lautaro', 'masculino', 'lacio', 'corto', 'negro', 'negros', 'oscuro', false),
+      new Persona('leon', 'masculino', 'rizado', 'corto', 'rubio', 'claros', 'palido', false),
+      new Persona('lucas', 'masculino', 'ondulado', 'corto', 'negro', 'claros', 'medio', false),
+      new Persona('lucila', 'femenino', 'rizado', 'medio', 'negro', 'claros', 'palido', false),
       new Persona('nico', 'masculino', 'ondulado', 'corto', 'negro', 'negros', 'palido', true),
       new Persona('olga', 'femenino', 'lacio', 'medio', 'rubio', 'marrones', 'palido', true),
       new Persona('ortabe', 'femenino', 'ondulado', 'medio', 'castaño', 'marrones', 'medio', false),
-      new Persona('rocio', 'femenino', 'lacio', 'largo', 'negro', 'celestes', 'palido', false),
-      new Persona('santi', 'masculino', 'ondulado', 'corto', 'castaño', 'verdes', 'oscuro', true),
+      new Persona('rocio', 'femenino', 'lacio', 'largo', 'negro', 'claros', 'palido', false),
+      new Persona('santi', 'masculino', 'ondulado', 'corto', 'castaño', 'marrones', 'oscuro', false),
       new Persona('sennes', 'masculino', 'ondulado', 'corto', 'castaño', 'marrones', 'medio', false),
       new Persona('soko', 'masculino', 'ondulado', 'corto', 'negro', 'negros', 'oscuro', false),
       new Persona('tomi', 'masculino', 'lacio', 'corto', 'negro', 'negros', 'palido', false),
@@ -132,6 +139,44 @@ export class QuienEsQuienComponent implements OnInit {
     this.opcionesVisibles = this.opcionesVisibles === tipo ? null : tipo;
   }
 
+  // Función para obtener mensaje formateado según el tipo y valor
+  getMensajeFormateado(tipo: string, valor: string | boolean, esCorrecta: boolean): string {
+    if (esCorrecta) {
+      if (tipo === 'usa_anteojos') {
+        return '¡Correcto! La persona usa anteojos.';
+      } else if (tipo === 'genero') {
+        return `¡Correcto! La persona es de género ${valor}.`;
+      } else if (tipo === 'tipo_pelo') {
+        return `¡Correcto! La persona tiene pelo ${valor}.`;
+      } else if (tipo === 'largo_pelo') {
+        return `¡Correcto! La persona tiene pelo de largo ${valor}.`;
+      } else if (tipo === 'color_pelo') {
+        return `¡Correcto! La persona tiene pelo de color ${valor}.`;
+      } else if (tipo === 'color_ojos') {
+        return `¡Correcto! La persona tiene ojos de color ${valor}.`;
+      } else if (tipo === 'tono_piel') {
+        return `¡Correcto! La persona tiene tono de piel ${valor}.`;
+      }
+    } else {
+      if (tipo === 'usa_anteojos') {
+        return 'No, la persona no usa anteojos.';
+      } else if (tipo === 'genero') {
+        return `No, la persona no es de género ${valor}.`;
+      } else if (tipo === 'tipo_pelo') {
+        return `No, la persona no tiene pelo ${valor}.`;
+      } else if (tipo === 'largo_pelo') {
+        return `No, la persona no tiene pelo de largo ${valor}.`;
+      } else if (tipo === 'color_pelo') {
+        return `No, la persona no tiene pelo de color ${valor}.`;
+      } else if (tipo === 'color_ojos') {
+        return `No, la persona no tiene ojos de color ${valor}.`;
+      } else if (tipo === 'tono_piel') {
+        return `No, la persona no tiene tono de piel ${valor}.`;
+      }
+    }
+    return '';
+  }
+
   hacerPregunta(tipo: string, valor: string | boolean): void {
     if (this.juegoTerminado) {
       return;
@@ -140,12 +185,13 @@ export class QuienEsQuienComponent implements OnInit {
     this.intentos++;
     const esCorrecta = this.personaSeleccionada[tipo as keyof Persona] === valor;
 
+    // Usar la nueva función para obtener mensajes formateados
+    this.mensaje = this.getMensajeFormateado(tipo, valor, esCorrecta);
+
     if (esCorrecta) {
-      this.mensaje = `¡Correcto! La persona ${tipo === 'usa_anteojos' ? 'usa anteojos' : `tiene ${valor}`}.`;
       this.botonesDeshabilitados[tipo] = true; // Deshabilitar toda la categoría
       this.filtrosAplicados[tipo] = valor;
     } else {
-      this.mensaje = `No, la persona ${tipo === 'usa_anteojos' ? 'no usa anteojos' : `no tiene ${valor}`}.`;
       this.opcionesDeshabilitadas[`${tipo}_${valor}`] = true; // Deshabilitar solo esa opción
       
       // Agregar el valor a la lista de valores excluidos
@@ -156,6 +202,14 @@ export class QuienEsQuienComponent implements OnInit {
         this.botonesDeshabilitados[tipo] = true; // Deshabilitar el botón
         this.filtrosAplicados[tipo] = false; // Guardar el valor opuesto como filtro
       }
+      
+      // Para el caso especial de género, si una opción es incorrecta, sabemos que es la otra
+      if (tipo === 'genero') {
+        // Si el género no es el que se preguntó, entonces es el otro (ya que solo hay dos opciones)
+        const otroGenero = valor === 'masculino' ? 'femenino' : 'masculino';
+        this.botonesDeshabilitados[tipo] = true; // Deshabilitar toda la categoría
+        this.filtrosAplicados[tipo] = otroGenero; // Aplicar el otro género como filtro
+      }
     }
 
     // Cerrar las opciones
@@ -165,6 +219,10 @@ export class QuienEsQuienComponent implements OnInit {
   arriesgar(): void {
     if (this.juegoTerminado || !this.personaNombre.trim()) {
       return;
+    }
+    if (!this.usuario || !this.usuario.id) {
+    console.warn("Usuario no cargado todavía.");
+    return;
     }
 
     this.intentos++;
@@ -180,6 +238,13 @@ export class QuienEsQuienComponent implements OnInit {
       this.puntaje = 0;
       this.mensaje = `¡PERDISTE! La persona correcta era ${this.personaSeleccionada.nombre}. Puntaje: 0`;
     }
+
+    this.db.registrarResultadoQuienEsQuien({
+      id_usuario: this.usuario.id ?? 'desconocido',
+      intentos : this.intentos,
+      victoria : this.victoria,
+      puntaje : this.puntaje
+    });
   }
 
   calcularPuntaje(): void {
@@ -237,7 +302,7 @@ export class QuienEsQuienComponent implements OnInit {
   }
 
   getOpcionesTipoPelo(): string[] {
-    return ['lacio', 'ondulado', 'corto'];
+    return ['lacio', 'ondulado', 'rizado'];
   }
 
   getOpcionesLargoPelo(): string[] {
@@ -249,7 +314,7 @@ export class QuienEsQuienComponent implements OnInit {
   }
 
   getOpcionesColorOjos(): string[] {
-    return ['celestes', 'verdes', 'marrones', 'negros'];
+    return ['claros', 'marrones', 'negros'];
   }
 
   getOpcionesTonoPiel(): string[] {

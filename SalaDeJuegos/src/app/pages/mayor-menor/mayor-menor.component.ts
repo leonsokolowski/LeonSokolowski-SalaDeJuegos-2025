@@ -14,7 +14,6 @@ import { AuthService } from '../../services/auth.service';
 export class MayorMenorComponent implements OnInit {
 
   private db = inject(DatabaseService);
-  private authService = inject(AuthService);
 
   usuario: any = null;
   mazo: Carta[] = [];
@@ -97,8 +96,7 @@ export class MayorMenorComponent implements OnInit {
   private finalizarJuego(): void {
     this.juegoTerminado = true;
     this.puntaje = this.aciertos * 10;
-    const usuario = this.authService.usuarioActual;
-
+    
     this.db.registrarResultadoMayorMenor({
       id_usuario: this.usuario.id ?? 'desconocido',
       aciertos: this.aciertos,

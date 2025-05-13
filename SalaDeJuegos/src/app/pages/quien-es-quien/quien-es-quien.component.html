@@ -156,7 +156,7 @@
         placeholder="Nombre de la persona..." 
         class="input-nombre"
         [disabled]="juegoTerminado">
-      <button class="boton-arriesgar" (click)="arriesgar()" [disabled]="!personaNombre.trim()">
+      <button  [disabled]="!usuario" class="boton-arriesgar" (click)="arriesgar()" [disabled]="!personaNombre.trim()">
         Arriesgar
       </button>
     </div>

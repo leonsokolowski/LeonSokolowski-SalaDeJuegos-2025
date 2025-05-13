@@ -61,4 +61,17 @@ export class DatabaseService {
       console.log("Resultado registrado:", data);
     }
   }
+  async registrarResultadoQuienEsQuien(resultado: {
+    id_usuario: number;
+    intentos: number;
+    victoria : boolean;
+    puntaje : number;
+  }) {
+    const { data, error } = await this.sb.supabase.from('resultados_quien_es_quien').insert([resultado]);
+    if (error) {
+      console.error("Error al registrar resultado:", error);
+    } else {
+      console.log("Resultado registrado:", data);
+    }
+  }
 }
