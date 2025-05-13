@@ -1,27 +1,171 @@
-<div class="quien-es-quien-pregunta-container">
-  <label for="atributo">Seleccioná una característica:</label>
-  <select id="atributo" [(ngModel)]="atributoSeleccionado" (change)="actualizarValores()">
-    <option value="">-- Atributo --</option>
-    <option *ngFor="let p of preguntasPosibles" [value]="p.atributo">
-      {{ p.atributo | titlecase }}
-    </option>
-  </select>
+<div class="quien-es-quien-container">
+  <h1 class="titulo">¿Quién es quién?</h1>
+  
+  <div class="juego-info">
+    <p>Intentos: <span class="destacado">{{ intentos }}</span></p>
+    <p *ngIf="juegoTerminado">Puntaje: <span class="destacado">{{ puntaje }}</span></p>
+  </div>
+  
+  <!-- Mensaje de información -->
+  <div *ngIf="mensaje" class="mensaje" [ngClass]="{'mensaje-victoria': victoria, 'mensaje-derrota': juegoTerminado && !victoria}">
+    {{ mensaje }}
+  </div>
+  
+  <!-- Grilla de personas -->
+  <div class="grilla-personas">
+    <div class="persona-card" *ngFor="let persona of personas" [ngClass]="{'persona-oculta': debeOcultarPersona(persona)}">
+      <img [src]="'assets/quien_es_quien/' + persona.nombre + '.png'" [alt]="persona.nombre">
+    </div>
+  </div>
 
-  <select [(ngModel)]="valorSeleccionado" [disabled]="!valoresDisponibles.length">
-    <option value="">-- Valor --</option>
-    <option *ngFor="let val of valoresDisponibles" [ngValue]="val">
-      {{ val }}
-    </option>
-  </select>
+  <!-- Sección de preguntas -->
+  <div class="seccion-preguntas" *ngIf="!juegoTerminado">
+    <!-- Botones de categorías principales -->
+    <div class="categorias-botones">
+      <button 
+        [disabled]="botonesDeshabilitados['genero']" 
+        [ngClass]="{'boton-activo': opcionesVisibles === 'genero', 'boton-deshabilitado': botonesDeshabilitados['genero']}"
+        (click)="mostrarOpciones('genero')">
+        ¿Es de género...?
+      </button>
+      
+      <button 
+        [disabled]="botonesDeshabilitados['tipo_pelo']" 
+        [ngClass]="{'boton-activo': opcionesVisibles === 'tipo_pelo', 'boton-deshabilitado': botonesDeshabilitados['tipo_pelo']}"
+        (click)="mostrarOpciones('tipo_pelo')">
+        ¿Tiene pelo...?
+      </button>
+      
+      <button 
+        [disabled]="botonesDeshabilitados['largo_pelo']" 
+        [ngClass]="{'boton-activo': opcionesVisibles === 'largo_pelo', 'boton-deshabilitado': botonesDeshabilitados['largo_pelo']}"
+        (click)="mostrarOpciones('largo_pelo')">
+        ¿Tiene el pelo de largo...?
+      </button>
+      
+      <button 
+        [disabled]="botonesDeshabilitados['color_pelo']" 
+        [ngClass]="{'boton-activo': opcionesVisibles === 'color_pelo', 'boton-deshabilitado': botonesDeshabilitados['color_pelo']}"
+        (click)="mostrarOpciones('color_pelo')">
+        ¿Tiene el pelo color...?
+      </button>
+      
+      <button 
+        [disabled]="botonesDeshabilitados['color_ojos']" 
+        [ngClass]="{'boton-activo': opcionesVisibles === 'color_ojos', 'boton-deshabilitado': botonesDeshabilitados['color_ojos']}"
+        (click)="mostrarOpciones('color_ojos')">
+        ¿Tiene los ojos color...?
+      </button>
+      
+      <button 
+        [disabled]="botonesDeshabilitados['tono_piel']" 
+        [ngClass]="{'boton-activo': opcionesVisibles === 'tono_piel', 'boton-deshabilitado': botonesDeshabilitados['tono_piel']}"
+        (click)="mostrarOpciones('tono_piel')">
+        ¿Tiene el tono de piel...?
+      </button>
+      
+      <button 
+        [disabled]="botonesDeshabilitados['usa_anteojos']" 
+        [ngClass]="{'boton-activo': opcionesVisibles === 'usa_anteojos', 'boton-deshabilitado': botonesDeshabilitados['usa_anteojos']}"
+        (click)="mostrarOpciones('usa_anteojos')">
+        ¿Usa anteojos?
+      </button>
+    </div>
 
-  <button (click)="preguntar()" [disabled]="!atributoSeleccionado || valorSeleccionado === null">Preguntar</button>
-</div>
+    <!-- Opciones específicas según la categoría seleccionada -->
+    <div class="opciones-especificas" *ngIf="opcionesVisibles">
+      <!-- Opciones de género -->
+      <div *ngIf="opcionesVisibles === 'genero'" class="opciones-grupo">
+        <button 
+          *ngFor="let opcion of getOpcionesGenero()" 
+          [disabled]="opcionesDeshabilitadas['genero_' + opcion]"
+          [ngClass]="{'opcion-deshabilitada': opcionesDeshabilitadas['genero_' + opcion]}"
+          (click)="hacerPregunta('genero', opcion)">
+          {{ opcion }}
+        </button>
+      </div>
 
-<hr />
+      <!-- Opciones de tipo pelo -->
+      <div *ngIf="opcionesVisibles === 'tipo_pelo'" class="opciones-grupo">
+        <button 
+          *ngFor="let opcion of getOpcionesTipoPelo()" 
+          [disabled]="opcionesDeshabilitadas['tipo_pelo_' + opcion]"
+          [ngClass]="{'opcion-deshabilitada': opcionesDeshabilitadas['tipo_pelo_' + opcion]}"
+          (click)="hacerPregunta('tipo_pelo', opcion)">
+          {{ opcion }}
+        </button>
+      </div>
 
-<div class="quien-es-quien-grilla-personas">
-  <div class="quien-es-quien-carta" *ngFor="let persona of personasFiltradas">
-    <img [src]="'assets/quien_es_quien/' + persona.nombre.toLowerCase() + '.png'" [alt]="persona.nombre" />
-    <p>{{ persona.nombre }}</p>
+      <!-- Opciones de largo pelo -->
+      <div *ngIf="opcionesVisibles === 'largo_pelo'" class="opciones-grupo">
+        <button 
+          *ngFor="let opcion of getOpcionesLargoPelo()" 
+          [disabled]="opcionesDeshabilitadas['largo_pelo_' + opcion]"
+          [ngClass]="{'opcion-deshabilitada': opcionesDeshabilitadas['largo_pelo_' + opcion]}"
+          (click)="hacerPregunta('largo_pelo', opcion)">
+          {{ opcion }}
+        </button>
+      </div>
+
+      <!-- Opciones de color pelo -->
+      <div *ngIf="opcionesVisibles === 'color_pelo'" class="opciones-grupo">
+        <button 
+          *ngFor="let opcion of getOpcionesColorPelo()" 
+          [disabled]="opcionesDeshabilitadas['color_pelo_' + opcion]"
+          [ngClass]="{'opcion-deshabilitada': opcionesDeshabilitadas['color_pelo_' + opcion]}"
+          (click)="hacerPregunta('color_pelo', opcion)">
+          {{ opcion }}
+        </button>
+      </div>
+
+      <!-- Opciones de color ojos -->
+      <div *ngIf="opcionesVisibles === 'color_ojos'" class="opciones-grupo">
+        <button 
+          *ngFor="let opcion of getOpcionesColorOjos()" 
+          [disabled]="opcionesDeshabilitadas['color_ojos_' + opcion]"
+          [ngClass]="{'opcion-deshabilitada': opcionesDeshabilitadas['color_ojos_' + opcion]}"
+          (click)="hacerPregunta('color_ojos', opcion)">
+          {{ opcion }}
+        </button>
+      </div>
+
+      <!-- Opciones de tono piel -->
+      <div *ngIf="opcionesVisibles === 'tono_piel'" class="opciones-grupo">
+        <button 
+          *ngFor="let opcion of getOpcionesTonoPiel()" 
+          [disabled]="opcionesDeshabilitadas['tono_piel_' + opcion]"
+          [ngClass]="{'opcion-deshabilitada': opcionesDeshabilitadas['tono_piel_' + opcion]}"
+          (click)="hacerPregunta('tono_piel', opcion)">
+          {{ opcion }}
+        </button>
+      </div>
+
+      <!-- Opciones de anteojos -->
+      <div *ngIf="opcionesVisibles === 'usa_anteojos'" class="opciones-grupo">
+        <!-- Este grupo ya no se muestra porque la pregunta es directa -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Sección para arriesgar -->
+  <div class="seccion-arriesgar" *ngIf="!juegoTerminado">
+    <div class="arriesgar-container">
+      <input 
+        type="text" 
+        [(ngModel)]="personaNombre" 
+        placeholder="Nombre de la persona..." 
+        class="input-nombre"
+        [disabled]="juegoTerminado">
+      <button class="boton-arriesgar" (click)="arriesgar()" [disabled]="!personaNombre.trim()">
+        Arriesgar
+      </button>
+    </div>
+  </div>
+
+  <!-- Botón reiniciar -->
+  <div class="seccion-reiniciar" *ngIf="juegoTerminado">
+    <button class="boton-reiniciar" (click)="reiniciarJuego()">
+      Jugar de nuevo
+    </button>
   </div>
 </div>
