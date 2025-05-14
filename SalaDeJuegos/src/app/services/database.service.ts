@@ -53,7 +53,7 @@ export class DatabaseService {
   }
 
   async registrarResultadoAhorcado(resultado: {
-    usuario: string;
+    id_usuario: number;
     palabra: string;
     aciertos: number;
     errores: number;
@@ -96,10 +96,22 @@ export class DatabaseService {
       console.log("Resultado registrado:", data);
     }
   }
+  async registrarResultadoPreguntados(resultado: {
+    id_usuario: number;
+    aciertos: number;
+    tiempo : number;
+    puntaje : number;
+  }) {
+    const { data, error } = await this.sb.supabase.from('resultados_preguntados').insert([resultado]);
+    if (error) {
+      console.error("Error al registrar resultado:", error);
+    } else {
+      console.log("Resultado registrado:", data);
+    }
+  }
 
   async listarMensajes()
   {
-    // Corrección del paréntesis extra en la consulta original
     const { data, error } = await this.sb.supabase.from("mensajes").select("id_mensaje, id_usuario, usuarios (nombre), mensaje, fecha");
     
     if (error) {
@@ -126,6 +138,84 @@ export class DatabaseService {
     } catch (error) {
       console.error('Error al insertar mensaje:', error);
       throw error;
+    }
+  }
+
+  async obtenerResultadosAhorcado() {
+    try {
+      const { data, error } = await this.sb.supabase
+        .from('resultados_ahorcado')
+        .select('*, usuarios(nombre)')
+        .order('puntaje', { ascending: false })
+        .order('tiempo', { ascending: true });
+      
+      if (error) {
+        console.error("Error al obtener resultados del Ahorcado:", error);
+        return [];
+      }
+      
+      return data;
+    } catch (error) {
+      console.error("Excepción al obtener resultados del Ahorcado:", error);
+      return [];
+    }
+  }
+
+  async obtenerResultadosMayorMenor() {
+    try {
+      const { data, error } = await this.sb.supabase
+        .from('resultados_mayor_menor')
+        .select('*, usuarios(nombre)')
+        .order('puntaje', { ascending: false });
+      
+      if (error) {
+        console.error("Error al obtener resultados de Mayor o Menor:", error);
+        return [];
+      }
+      
+      return data;
+    } catch (error) {
+      console.error("Excepción al obtener resultados de Mayor o Menor:", error);
+      return [];
+    }
+  }
+
+  async obtenerResultadosQuienEsQuien() {
+    try {
+      const { data, error } = await this.sb.supabase
+        .from('resultados_quien_es_quien')
+        .select('*, usuarios(nombre)')
+        .order('puntaje', { ascending: false });
+      
+      if (error) {
+        console.error("Error al obtener resultados de Quién es Quién:", error);
+        return [];
+      }
+      
+      return data;
+    } catch (error) {
+      console.error("Excepción al obtener resultados de Quién es Quién:", error);
+      return [];
+    }
+  }
+
+  async obtenerResultadosPreguntados() {
+    try {
+      const { data, error } = await this.sb.supabase
+        .from('resultados_preguntados')
+        .select('*, usuarios(nombre)')
+        .order('puntaje', { ascending: false })
+        .order('tiempo', { ascending: true });
+      
+      if (error) {
+        console.error("Error al obtener resultados de Preguntados:", error);
+        return [];
+      }
+      
+      return data;
+    } catch (error) {
+      console.error("Excepción al obtener resultados de Preguntados:", error);
+      return [];
     }
   }
 }

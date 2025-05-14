@@ -21,7 +21,6 @@ export class ChatComponent implements AfterViewChecked, OnInit {
   private shouldScrollToBottom = true;
 
   constructor() {
-    // La carga de mensajes se moverá a ngOnInit para asegurar que ya tengamos el usuario actual
   }
 
   async cargarMensajes() {

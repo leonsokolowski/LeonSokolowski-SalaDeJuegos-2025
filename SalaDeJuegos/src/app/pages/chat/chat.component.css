@@ -1,6 +1,5 @@
-.chat-wrapper {
-  width: 100%;
-  max-width: 800px;
+.chat-wrapper { 
+  width: 800px;
   height: 80vh;
   margin: 0 auto;
   display: flex;

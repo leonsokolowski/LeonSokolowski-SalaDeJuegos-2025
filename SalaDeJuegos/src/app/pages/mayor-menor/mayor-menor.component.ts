@@ -24,9 +24,9 @@ export class MayorMenorComponent implements OnInit {
   errores: number = 0;
   tiempoRestante: number = 5;
   juegoTerminado: boolean = false;
-  juegoIniciado: boolean = false;  // Control de si el juego ha comenzado
+  juegoIniciado: boolean = false;  
   puntaje : number = 0;
-  private intervaloTimer: any;  // Para almacenar el intervalo del temporizador
+  private intervaloTimer: any;  
 
   ngOnInit(): void {
     setTimeout(async () => {
@@ -59,10 +59,10 @@ export class MayorMenorComponent implements OnInit {
     this.errores = 0;
     this.puntaje = 0
     this.juegoTerminado = false;
-    this.juegoIniciado = true;  // Marcamos que el juego ha comenzado
+    this.juegoIniciado = true;  
     this.cartaActual = this.mazo[this.indexCartaActual];
-    this.tiempoRestante = 5; // Reiniciar el tiempo
-    this.iniciarTemporizador();  // Iniciar el temporizador
+    this.tiempoRestante = 5; 
+    this.iniciarTemporizador();  
   }
 
   jugar(eleccion: 'mayor' | 'menor'): void {
@@ -88,8 +88,8 @@ export class MayorMenorComponent implements OnInit {
     if (this.indexCartaActual >= this.mazo.length - 1) {
       this.finalizarJuego();
     } else {
-      this.tiempoRestante = 5; // Resetear el timer cuando se cambia la carta
-      this.iniciarTemporizador();  // Volver a iniciar el temporizador
+      this.tiempoRestante = 5; 
+      this.iniciarTemporizador();  
     }
   }
 
@@ -112,24 +112,22 @@ export class MayorMenorComponent implements OnInit {
   }
 
   private iniciarTemporizador(): void {
-    // Limpiar el intervalo anterior antes de comenzar uno nuevo
     if (this.intervaloTimer) {
       clearInterval(this.intervaloTimer);
     }
 
-    // Iniciar el nuevo intervalo de temporizador
     this.intervaloTimer = setInterval(() => {
       if (this.tiempoRestante === 0 || this.juegoTerminado) {
         clearInterval(this.intervaloTimer);
         if (this.tiempoRestante === 0 && this.indexCartaActual < this.mazo.length - 1) {
-          // Si el tiempo se acaba y no se hizo ninguna elección, sumar como error
+          
           this.errores++;
 
-          // Cambiar carta si el tiempo se acabó
+          
           this.indexCartaActual++;
           this.cartaActual = this.mazo[this.indexCartaActual];
-          this.tiempoRestante = 5;  // Reiniciar el temporizador para la siguiente carta
-          this.iniciarTemporizador();  // Reiniciar el temporizador para la próxima carta
+          this.tiempoRestante = 5;  
+          this.iniciarTemporizador(); 
         }
       } else {
         this.tiempoRestante--;

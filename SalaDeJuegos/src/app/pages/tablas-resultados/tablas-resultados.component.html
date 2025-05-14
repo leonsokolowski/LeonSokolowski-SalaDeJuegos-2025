@@ -1,0 +1,128 @@
+<div class="resultados-container">
+  <h1 class="titulo-principal">Tabla de Campeones</h1>
+  
+  <div *ngIf="cargando" class="loading-container">
+    <div class="loading-spinner"></div>
+    <p>Cargando resultados...</p>
+  </div>
+  
+  <div *ngIf="error" class="error-container">
+    <p>¡Oops! Ha ocurrido un error al cargar los resultados. Por favor, intenta de nuevo más tarde.</p>
+    <button (click)="cargarResultados()">Reintentar</button>
+  </div>
+  
+  <div *ngIf="!cargando && !error" class="juegos-container">
+
+    <div class="tabla-juego">
+      <h2>Ahorcado</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Jugador</th>
+            <th>Puntaje</th>
+            <th>Tiempo</th>
+            <th>Aciertos</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngIf="resultadosAhorcado.length === 0">
+            <td colspan="5" class="sin-datos">No hay resultados disponibles</td>
+          </tr>
+          <tr *ngFor="let resultado of resultadosAhorcado; let i = index">
+            <td class="posicion">{{ i + 1 }}</td>
+            <td class="nombre">{{ resultado.nombre }}</td>
+            <td class="puntaje">{{ resultado.puntaje }}</td>
+            <td class="tiempo">{{ resultado.tiempo }}s</td>
+            <td class="aciertos">{{ resultado.aciertos }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="tabla-juego">
+      <h2>Mayor o Menor</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Jugador</th>
+            <th>Puntaje</th>
+            <th>Aciertos</th>
+            <th>Total Cartas</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngIf="resultadosMayorMenor.length === 0">
+            <td colspan="5" class="sin-datos">No hay resultados disponibles</td>
+          </tr>
+          <tr *ngFor="let resultado of resultadosMayorMenor; let i = index">
+            <td class="posicion">{{ i + 1 }}</td>
+            <td class="nombre">{{ resultado.nombre }}</td>
+            <td class="puntaje">{{ resultado.puntaje }}</td>
+            <td class="aciertos">{{ resultado.aciertos }}</td>
+            <td>{{ resultado.total_cartas }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="tabla-juego">
+      <h2>Quién es Quién</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Jugador</th>
+            <th>Puntaje</th>
+            <th>Intentos</th>
+            <th>Victoria</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngIf="resultadosQuienEsQuien.length === 0">
+            <td colspan="5" class="sin-datos">No hay resultados disponibles</td>
+          </tr>
+          <tr *ngFor="let resultado of resultadosQuienEsQuien; let i = index">
+            <td class="posicion">{{ i + 1 }}</td>
+            <td class="nombre">{{ resultado.nombre }}</td>
+            <td class="puntaje">{{ resultado.puntaje }}</td>
+            <td>{{ resultado.intentos }}</td>
+            <td>
+              <span class="badge" [class.victoria]="resultado.victoria" [class.derrota]="!resultado.victoria">
+                {{ resultado.victoria ? 'SÍ' : 'NO' }}
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="tabla-juego">
+      <h2>Preguntados</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Jugador</th>
+            <th>Puntaje</th>
+            <th>Tiempo</th>
+            <th>Aciertos</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngIf="resultadosPreguntados.length === 0">
+            <td colspan="5" class="sin-datos">No hay resultados disponibles</td>
+          </tr>
+          <tr *ngFor="let resultado of resultadosPreguntados; let i = index">
+            <td class="posicion">{{ i + 1 }}</td>
+            <td class="nombre">{{ resultado.nombre }}</td>
+            <td class="puntaje">{{ resultado.puntaje }}</td>
+            <td class="tiempo">{{ resultado.tiempo }}s</td>
+            <td class="aciertos">{{ resultado.aciertos }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

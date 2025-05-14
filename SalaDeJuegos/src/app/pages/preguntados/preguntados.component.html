@@ -1,0 +1,35 @@
+<div *ngIf="mostrarPopupInicio" class="popup">
+  <div class="popup-contenido">
+    <p>¡Responde correctamente el nombre del personaje de comics que aparezca en pantalla lo antes posible!</p>
+    <p>¡¿Estás listo?!</p>
+    <button (click)="comenzarJuego()">¡Comenzar!</button>
+  </div>
+</div>
+<div *ngIf="!mostrarPopupInicio">
+  <div *ngIf="!juegoTerminado" class="pregunta-container">
+    <div class="contador">Pregunta {{ indiceActual + 1 }} de 10</div>
+
+    <div *ngIf="preguntas[indiceActual]">
+      <img [src]="preguntas[indiceActual].image.url" 
+          [alt]="preguntas[indiceActual].name"
+          class="imagen-pregunta">
+
+      <div class="opciones-container">
+        <button *ngFor="let opcion of opciones"
+                (click)="verificarRespuesta(opcion)"
+                class="opcion-btn">
+          {{ opcion }}
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="juegoTerminado" class="resultados">
+    <h2>🎉 ¡Juego Terminado!</h2>
+    <p>Aciertos: <span class="estadistica">{{ aciertos }} / 10</span></p>
+    <p>Puntaje final: <span class="estadistica">{{ puntos }}</span></p>
+    <p>Tiempo total: <span class="estadistica">{{ tiempoTotal }}</span> segundos</p>
+    <p>Multiplicador aplicado: <span class="estadistica">x{{ calcularMultiplicador(tiempoTotal) }}</span></p>
+    <button (click)="iniciarJuego()" class="jugar-nuevo-btn">Jugar de nuevo</button>
+  </div>
+</div>

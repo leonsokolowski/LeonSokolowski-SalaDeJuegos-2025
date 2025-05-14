@@ -21,8 +21,8 @@ export class QuienEsQuienComponent implements OnInit {
   juegoTerminado: boolean = false;
   victoria: boolean = false;
   mensaje: string = '';
+  mostrarPopupInicio: boolean = true;
 
-  // Estados de los botones
   opcionesVisibles: string | null = null;
   botonesDeshabilitados: { [key: string]: boolean } = {
     genero: false,
@@ -36,10 +36,8 @@ export class QuienEsQuienComponent implements OnInit {
 
   opcionesDeshabilitadas: { [key: string]: boolean } = {};
 
-  // Filtros aplicados
   filtrosAplicados: { [key: string]: any } = {};
   
-  // Valores excluidos para cada característica
   valoresExcluidos: { [key: string]: any[] } = {
     genero: [],
     tipo_pelo: [],
@@ -52,17 +50,37 @@ export class QuienEsQuienComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit(): void {
-    setTimeout(async () => {
-      const resultado = await this.db.traerUsuarioActual();
-      this.usuario = resultado && resultado.length > 0 ? resultado[0] : null;
-    }, 500);
+  async ngOnInit(){
+    await this.obtenerUsuarioActual();
+  }
+  comenzarJuego(): void {
+    this.mostrarPopupInicio = false;
     this.inicializarPersonas();
     this.iniciarJuego();
   }
+  async obtenerUsuarioActual() {
+    try {
+      const userData = await this.db.traerUsuarioActual();
+      console.log('Datos de usuario recibidos:', userData);
+      
+      if (userData && userData.length > 0) {
+        this.usuario = userData[0];
+        console.log('Usuario actual establecido:', this.usuario);
+      } else {
+        console.error('No se encontró un usuario actual. userData:', userData);
+        
+        const todosUsuarios = await this.db.listarUsuarios();
+        if (todosUsuarios && todosUsuarios.length > 0) {
+          this.usuario = todosUsuarios[0];
+          console.log('Usuario alternativo establecido:', this.usuario);
+        }
+      }
+    } catch (error) {
+      console.error('Error al obtener usuario actual:', error);
+    }
+  }
 
   inicializarPersonas(): void {
-    // Creamos las 20 personas con diferentes características
     this.personas = [
       new Persona('ale', 'femenino', 'rizado', 'medio', 'rubio', 'claros', 'palido', true),
       new Persona('beni', 'masculino', 'lacio', 'corto', 'rubio', 'marrones', 'palido', false),
@@ -88,12 +106,10 @@ export class QuienEsQuienComponent implements OnInit {
   }
 
   iniciarJuego(): void {
-    // Seleccionar persona aleatoria
     const indiceAleatorio = Math.floor(Math.random() * this.personas.length);
     this.personaSeleccionada = this.personas[indiceAleatorio];
     console.log('Persona seleccionada:', this.personaSeleccionada.nombre);
 
-    // Reiniciar estados
     this.intentos = 0;
     this.puntaje = 0;
     this.juegoTerminado = false;
@@ -130,7 +146,6 @@ export class QuienEsQuienComponent implements OnInit {
       return;
     }
     
-    // Para el caso especial de "usa_anteojos", hacer la pregunta directamente
     if (tipo === 'usa_anteojos') {
       this.hacerPregunta('usa_anteojos', true);
       return;
@@ -139,7 +154,6 @@ export class QuienEsQuienComponent implements OnInit {
     this.opcionesVisibles = this.opcionesVisibles === tipo ? null : tipo;
   }
 
-  // Función para obtener mensaje formateado según el tipo y valor
   getMensajeFormateado(tipo: string, valor: string | boolean, esCorrecta: boolean): string {
     if (esCorrecta) {
       if (tipo === 'usa_anteojos') {
@@ -185,34 +199,29 @@ export class QuienEsQuienComponent implements OnInit {
     this.intentos++;
     const esCorrecta = this.personaSeleccionada[tipo as keyof Persona] === valor;
 
-    // Usar la nueva función para obtener mensajes formateados
     this.mensaje = this.getMensajeFormateado(tipo, valor, esCorrecta);
 
     if (esCorrecta) {
-      this.botonesDeshabilitados[tipo] = true; // Deshabilitar toda la categoría
+      this.botonesDeshabilitados[tipo] = true;
       this.filtrosAplicados[tipo] = valor;
     } else {
-      this.opcionesDeshabilitadas[`${tipo}_${valor}`] = true; // Deshabilitar solo esa opción
+      this.opcionesDeshabilitadas[`${tipo}_${valor}`] = true; 
       
-      // Agregar el valor a la lista de valores excluidos
+    
       this.valoresExcluidos[tipo].push(valor);
       
-      // Si es "usa_anteojos" y la respuesta es no, entonces sabemos que es false
       if (tipo === 'usa_anteojos' && valor === true) {
-        this.botonesDeshabilitados[tipo] = true; // Deshabilitar el botón
-        this.filtrosAplicados[tipo] = false; // Guardar el valor opuesto como filtro
+        this.botonesDeshabilitados[tipo] = true; 
+        this.filtrosAplicados[tipo] = false; 
       }
       
-      // Para el caso especial de género, si una opción es incorrecta, sabemos que es la otra
       if (tipo === 'genero') {
-        // Si el género no es el que se preguntó, entonces es el otro (ya que solo hay dos opciones)
         const otroGenero = valor === 'masculino' ? 'femenino' : 'masculino';
-        this.botonesDeshabilitados[tipo] = true; // Deshabilitar toda la categoría
-        this.filtrosAplicados[tipo] = otroGenero; // Aplicar el otro género como filtro
+        this.botonesDeshabilitados[tipo] = true; 
+        this.filtrosAplicados[tipo] = otroGenero; 
       }
     }
 
-    // Cerrar las opciones
     this.opcionesVisibles = null;
   }
 
@@ -248,30 +257,26 @@ export class QuienEsQuienComponent implements OnInit {
   }
 
   calcularPuntaje(): void {
-    // Base: 100 puntos por victoria
     this.puntaje = 100;
-    
-    // Bonificación por intentos
     if (this.intentos === 1) {
-      this.puntaje += 900; // 1000 total
+      this.puntaje += 900; 
     } else if (this.intentos === 2) {
-      this.puntaje += 800; // 900 total
+      this.puntaje += 800; 
     } else if (this.intentos === 3) {
-      this.puntaje += 700; // 800 total
+      this.puntaje += 700; 
     } else if (this.intentos === 4) {
-      this.puntaje += 600; // 700 total
+      this.puntaje += 600; 
     } else if (this.intentos === 5) {
-      this.puntaje += 500; // 600 total
+      this.puntaje += 500; 
     } else if (this.intentos === 6) {
-      this.puntaje += 400; // 500 total
+      this.puntaje += 400; 
     } else if (this.intentos === 7) {
-      this.puntaje += 300; // 400 total
+      this.puntaje += 300; 
     } else if (this.intentos === 8) {
-      this.puntaje += 200; // 300 total
+      this.puntaje += 200; 
     } else if (this.intentos === 9) {
-      this.puntaje += 100; // 200 total
+      this.puntaje += 100; 
     }
-    // 10 o más intentos: solo los 100 puntos base
   }
 
   reiniciarJuego(): void {
@@ -279,24 +284,21 @@ export class QuienEsQuienComponent implements OnInit {
   }
 
   debeOcultarPersona(persona: Persona): boolean {
-    // Revisar si la persona cumple con todos los filtros aplicados
     for (const [key, value] of Object.entries(this.filtrosAplicados)) {
       if (persona[key as keyof Persona] !== value) {
-        return true; // La persona no cumple con algún filtro aplicado
+        return true;
       }
     }
     
-    // Revisar si la persona tiene algún valor excluido
     for (const [key, values] of Object.entries(this.valoresExcluidos)) {
       if (values.includes(persona[key as keyof Persona])) {
-        return true; // La persona tiene un valor que ha sido excluido
+        return true;
       }
     }
     
-    return false; // La persona cumple con todos los filtros y no tiene valores excluidos
+    return false;
   }
 
-  // Métodos auxiliares para mostrar opciones específicas
   getOpcionesGenero(): string[] {
     return ['masculino', 'femenino'];
   }

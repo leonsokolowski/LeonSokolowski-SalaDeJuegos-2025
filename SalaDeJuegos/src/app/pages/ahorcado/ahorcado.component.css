@@ -1,4 +1,3 @@
-/* Estilos generales para el contenedor del juego */
 .contenedor {
   display: flex;
   justify-content: center;
@@ -15,7 +14,6 @@
   animation: contenedorAnim 1s ease-in-out;
 }
 
-/* Animación para el contenedor */
 @keyframes contenedorAnim {
   from {
     opacity: 0;
@@ -25,7 +23,6 @@
   }
 }
 
-/* Tarjeta izquierda: teclado y controles */
 .tarjeta-interaccion {
   width: 600px;
   height: 750px;
@@ -39,7 +36,6 @@
   animation: tarjetaAnim 1s ease-in-out;
 }
 
-/* Animación para la tarjeta de interacción */
 @keyframes tarjetaAnim {
   from {
     transform: translateX(-50%);
@@ -51,7 +47,6 @@
   }
 }
 
-/* Tarjeta derecha: muñequito del ahorcado */
 .tarjeta-imagen {
   width: 600px;
   height: 500px;
@@ -65,7 +60,6 @@
   animation: tarjetaImagenAnim 1s ease-in-out;
 }
 
-/* Animación para la tarjeta de imagen */
 @keyframes tarjetaImagenAnim {
   from {
     transform: translateY(50%);
@@ -85,7 +79,6 @@
 }
 
 
-/* Título principal */
 h2 {
   font-size: 2rem;
   font-weight: 600;
@@ -94,7 +87,6 @@ h2 {
   animation: tituloAnim 1s ease-in-out;
 }
 
-/* Animación para el título */
 @keyframes tituloAnim {
   from {
     transform: translateY(-20px);
@@ -106,7 +98,6 @@ h2 {
   }
 }
 
-/* Estilo de la palabra (letras descubiertas) */
 .palabra {
   display: flex;
   justify-content: center;
@@ -118,7 +109,6 @@ h2 {
   animation: palabraAnim 1s ease-in-out;
 }
 
-/* Animación para la palabra */
 @keyframes palabraAnim {
   from {
     transform: translateX(-50%);
@@ -130,7 +120,6 @@ h2 {
   }
 }
 
-/* Estilo para los botones del abecedario */
 .abecedario {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
@@ -173,7 +162,6 @@ h2 {
   cursor: not-allowed;
 }
 
-/* Contenedor para arriesgar palabra */
 .arriesgar-contenedor {
   text-align: center;
   margin-top: 2rem;
@@ -181,7 +169,6 @@ h2 {
   animation: arriesgarAnim 1s ease-in-out;
 }
 
-/* Animación para el contenedor de arriesgar */
 @keyframes arriesgarAnim {
   from {
     transform: translateY(50%);
@@ -233,7 +220,6 @@ h2 {
   cursor: not-allowed;
 }
 
-/* Estilo para la sección de información */
 .info {
   text-align: center;
   font-size: 1.2rem;
@@ -242,7 +228,6 @@ h2 {
   animation: infoAnim 1s ease-in-out;
 }
 
-/* Animación para la sección de información */
 @keyframes infoAnim {
   from {
     transform: translateY(30px);
@@ -254,14 +239,12 @@ h2 {
   }
 }
 
-/* Resultado del juego */
 .resultado {
   text-align: center;
   margin-top: 2rem;
   animation: resultadoAnim 1s ease-in-out;
 }
 
-/* Animación para el resultado del juego */
 @keyframes resultadoAnim {
   from {
     transform: translateY(-30px);
@@ -303,79 +286,11 @@ h2 {
   transform: translateY(-2px);
 }
 
-/* Estilos responsivos */
-@media (max-width: 768px) {
-  .contenedor {
-    flex-direction: column;
-    gap: 2rem;
-  }
-
-  .tarjeta-interaccion,
-  .tarjeta-imagen {
-    width: 100%;
-    max-width: 500px;
-    height: auto;
-  }
-
-  .abecedario {
-    grid-template-columns: repeat(5, 1fr);
-  }
-
-  .arriesgar-contenedor input {
-    width: 90%;
-  }
-}
-
-.popup {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
-}
-
-.popup-contenido {
-    background-color: var(--blanco);
-    padding: 30px; /* Menos padding */
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    text-align: center;
-}
-
-.popup-contenido p {
-    font-size: 1.2rem; /* Fuente más pequeña */
-    margin-bottom: 15px;
-    font-weight: 500; /* Menos peso en la fuente */
-}
-
-.popup-contenido button {
-    background-color: var(--rosa);
-    color: var(--blanco);
-    border: none;
-    padding: 12px 20px; /* Menos padding */
-    font-size: 1rem; /* Fuente más pequeña */
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-.popup-contenido button:hover {
-    background-color: var(--rosa-fuerte);
-    transform: translateY(-3px); /* Menos desplazamiento */
-}
-/* Media query para pantallas con ancho máximo de 1366px */
 @media screen and (max-width: 1366px) {
-  /* Contenedor principal */
   body, html {
-    font-size: 13px; /* Reducción más agresiva del tamaño base de fuente */
+    font-size: 13px; 
   }
   
-  /* Contenedor principal */
   .contenedor {
     padding: 1rem;
     max-width: 85%;
@@ -383,27 +298,25 @@ h2 {
     gap: 1.5rem;
   }
   
-  /* Ajustamos el tamaño de las tarjetas proporcionalmente */
   .tarjeta-interaccion {
-    width: 450px; /* Reducido desde 600px */
-    height: 570px; /* Reducido desde 750px */
+    width: 450px; 
+    height: 570px; 
     padding: 1.2rem;
   }
   
   .tarjeta-imagen {
-    width: 450px; /* Reducido desde 600px */
-    height: 375px; /* Reducido desde 500px */
+    width: 450px; 
+    height: 375px; 
     padding: 1.2rem;
   }
   
-  /* Ajustamos el tamaño de la imagen del ahorcado */
   .imagen-ahorcado img {
-    width: 190px; /* Reducido desde 250px */
+    width: 190px; 
     margin-top: -45px;
     margin-left: -8px;
   }
   
-  /* Ajustamos tamaños de texto */
+
   h2 {
     font-size: 1.7rem;
     margin: 0.7rem 0;

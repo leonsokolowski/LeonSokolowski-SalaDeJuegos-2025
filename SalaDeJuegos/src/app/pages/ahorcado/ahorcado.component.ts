@@ -30,13 +30,37 @@ export class AhorcadoComponent {
   rutaImagenAhorcado: string = '';
   puntaje: number = 0;
   mostrarPopupInicio: boolean = true;
+  usuarioActual: any = null;
 
-  ngOnInit(): void {
+  async ngOnInit() {
+    await this.obtenerUsuarioActual();
   }
 
   comenzarJuego(): void {
     this.mostrarPopupInicio = false;
     this.iniciarJuego();
+  }
+
+  async obtenerUsuarioActual() {
+    try {
+      const userData = await this.db.traerUsuarioActual();
+      console.log('Datos de usuario recibidos:', userData);
+      
+      if (userData && userData.length > 0) {
+        this.usuarioActual = userData[0];
+        console.log('Usuario actual establecido:', this.usuarioActual);
+      } else {
+        console.error('No se encontró un usuario actual. userData:', userData);
+        
+        const todosUsuarios = await this.db.listarUsuarios();
+        if (todosUsuarios && todosUsuarios.length > 0) {
+          this.usuarioActual = todosUsuarios[0];
+          console.log('Usuario alternativo establecido:', this.usuarioActual);
+        }
+      }
+    } catch (error) {
+      console.error('Error al obtener usuario actual:', error);
+    }
   }
   
   iniciarJuego(): void {
@@ -141,7 +165,7 @@ export class AhorcadoComponent {
     }
   
     const resultado = {
-      usuario: this.auth.usuarioActual?.email ?? 'desconocido',
+      id_usuario: this.usuarioActual.id ?? 0,
       palabra: this.palabraSecreta,
       aciertos: this.letrasSeleccionadas.length,
       errores: this.letrasIncorrectas.length,

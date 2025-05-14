@@ -53,14 +53,14 @@ export class RegistroComponent {
     const { correo, contraseña, confirmarContraseña, nombre, apellido, edad } = this.registroForm.value;
 
     if (contraseña !== confirmarContraseña) {
-      this.registroForm.controls['confirmarContraseña'].setErrors({ noMatch: true });  // Añadir error a la confirmación de la contraseña
+      this.registroForm.controls['confirmarContraseña'].setErrors({ noMatch: true });  
       this.errorMessage = 'Las contraseñas no coinciden.';
       return;
     }
   
     const usuarioExistente = await this.verificarUsuarioExistente();
     if (usuarioExistente) {
-      this.registroForm.controls['correo'].setErrors({ alreadyExists: true }); // Añadir error al correo si el usuario ya existe
+      this.registroForm.controls['correo'].setErrors({ alreadyExists: true }); 
       this.errorMessage = 'Ya existe un usuario con ese correo o combinación de nombre y apellido.';
       return;
     }

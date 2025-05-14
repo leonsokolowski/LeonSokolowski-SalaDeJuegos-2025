@@ -1,0 +1,219 @@
+.resultados-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  background-color: var(--blanco);
+  border-radius: 20px;
+  padding: 2rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.titulo-principal {
+  color: var(--rojo-suave);
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: 2.5rem;
+  position: relative;
+}
+
+.titulo-principal::after {
+  content: '';
+  display: block;
+  width: 80px;
+  height: 4px;
+  background-color: var(--rosa-fuerte);
+  margin: 0.5rem auto 0;
+  border-radius: 2px;
+}
+
+.juegos-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+}
+
+.tabla-juego {
+  background-color: var(--rosa-claro);
+  border-radius: 15px;
+  padding: 1.5rem;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease;
+}
+
+.tabla-juego:hover {
+  transform: translateY(-5px);
+}
+
+.tabla-juego h2 {
+  color: var(--rojo-suave);
+  text-align: center;
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+  position: relative;
+}
+
+.tabla-juego h2::after {
+  content: '';
+  display: block;
+  width: 50px;
+  height: 3px;
+  background-color: var(--rosa);
+  margin: 0.3rem auto 0;
+  border-radius: 2px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+thead tr {
+  background-color: var(--rosa);
+  color: var(--blanco);
+}
+
+th, td {
+  padding: 12px;
+  text-align: center;
+  border-bottom: 1px solid var(--rosa);
+}
+
+th {
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  letter-spacing: 0.05em;
+}
+
+tbody tr:hover {
+  background-color: rgba(255, 154, 162, 0.1);
+}
+
+.posicion {
+  font-weight: 600;
+  color: var(--rojo-suave);
+  font-size: 1.1rem;
+}
+
+.nombre {
+  font-weight: 600;
+  color: var(--texto-oscuro);
+}
+
+.puntaje {
+  font-weight: 600;
+  color: var(--rojo-oscuro);
+  font-size: 1.1rem;
+}
+
+.tiempo {
+  color: var(--texto-oscuro);
+}
+
+.aciertos {
+  color: var(--rojo-suave);
+}
+
+.badge {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 0.8rem;
+}
+
+.victoria {
+  background-color: rgba(46, 213, 115, 0.2);
+  color: #2ed573;
+}
+
+.derrota {
+  background-color: rgba(255, 71, 87, 0.2);
+  color: #ff4757;
+}
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 300px;
+}
+
+.loading-spinner {
+  width: 50px;
+  height: 50px;
+  border: 5px solid var(--rosa-claro);
+  border-top: 5px solid var(--rojo-suave);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 1rem;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.error-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  text-align: center;
+  color: var(--rojo-oscuro);
+}
+
+.error-container button {
+  margin-top: 1rem;
+  background-color: var(--rojo-suave);
+  color: white;
+  border: none;
+  padding: 10px 25px;
+  border-radius: 10px;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.error-container button:hover {
+  background-color: var(--rojo-oscuro);
+}
+
+.sin-datos {
+  color: #999;
+  font-style: italic;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+  .juegos-container {
+    grid-template-columns: 1fr;
+  }
+  
+  .resultados-container {
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 576px) {
+  th, td {
+    padding: 8px 5px;
+    font-size: 0.9rem;
+  }
+  
+  .titulo-principal {
+    font-size: 2rem;
+  }
+  
+  .tabla-juego h2 {
+    font-size: 1.3rem;
+  }
+  
+  .tabla-juego {
+    padding: 1rem;
+  }
+}

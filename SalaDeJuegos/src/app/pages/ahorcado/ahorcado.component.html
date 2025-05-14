@@ -1,12 +1,11 @@
-<!-- Popup de inicio -->
 <div *ngIf="mostrarPopupInicio" class="popup">
   <div class="popup-contenido">
+    <p>¡Adivina todas las letras de la palabra antes de que muera ahoracado!</p>
     <p>¡¿Estás listo?!</p>
     <button (click)="comenzarJuego()">¡Comenzar!</button>
   </div>
 </div>
 
-<!-- Contenedor principal del juego -->
 <div class="contenedor" *ngIf="!mostrarPopupInicio">
   <div class="tarjeta-interaccion">
     <h2>Juego del Ahorcado</h2>

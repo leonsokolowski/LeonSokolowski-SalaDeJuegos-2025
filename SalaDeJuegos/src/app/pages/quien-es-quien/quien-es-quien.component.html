@@ -1,3 +1,11 @@
+<div *ngIf="mostrarPopupInicio" class="popup">
+  <div class="popup-contenido">
+    <p>¡Pregunta por las características para adivinar la persona misteriosa lo antes posible!</p>
+    <p>¡¿Estás listo?!</p>
+    <button (click)="comenzarJuego()">¡Comenzar!</button>
+  </div>
+</div>
+<div *ngIf="!mostrarPopupInicio">
 <div class="quien-es-quien-container">
   <h1 class="titulo">¿Quién es quién?</h1>
   
@@ -6,21 +14,17 @@
     <p *ngIf="juegoTerminado">Puntaje: <span class="destacado">{{ puntaje }}</span></p>
   </div>
   
-  <!-- Mensaje de información -->
   <div *ngIf="mensaje" class="mensaje" [ngClass]="{'mensaje-victoria': victoria, 'mensaje-derrota': juegoTerminado && !victoria}">
     {{ mensaje }}
   </div>
   
-  <!-- Grilla de personas -->
   <div class="grilla-personas">
     <div class="persona-card" *ngFor="let persona of personas" [ngClass]="{'persona-oculta': debeOcultarPersona(persona)}">
       <img [src]="'assets/quien_es_quien/' + persona.nombre + '.png'" [alt]="persona.nombre">
     </div>
   </div>
 
-  <!-- Sección de preguntas -->
   <div class="seccion-preguntas" *ngIf="!juegoTerminado">
-    <!-- Botones de categorías principales -->
     <div class="categorias-botones">
       <button 
         [disabled]="botonesDeshabilitados['genero']" 
@@ -72,9 +76,7 @@
       </button>
     </div>
 
-    <!-- Opciones específicas según la categoría seleccionada -->
     <div class="opciones-especificas" *ngIf="opcionesVisibles">
-      <!-- Opciones de género -->
       <div *ngIf="opcionesVisibles === 'genero'" class="opciones-grupo">
         <button 
           *ngFor="let opcion of getOpcionesGenero()" 
@@ -85,7 +87,6 @@
         </button>
       </div>
 
-      <!-- Opciones de tipo pelo -->
       <div *ngIf="opcionesVisibles === 'tipo_pelo'" class="opciones-grupo">
         <button 
           *ngFor="let opcion of getOpcionesTipoPelo()" 
@@ -96,7 +97,6 @@
         </button>
       </div>
 
-      <!-- Opciones de largo pelo -->
       <div *ngIf="opcionesVisibles === 'largo_pelo'" class="opciones-grupo">
         <button 
           *ngFor="let opcion of getOpcionesLargoPelo()" 
@@ -107,7 +107,6 @@
         </button>
       </div>
 
-      <!-- Opciones de color pelo -->
       <div *ngIf="opcionesVisibles === 'color_pelo'" class="opciones-grupo">
         <button 
           *ngFor="let opcion of getOpcionesColorPelo()" 
@@ -118,7 +117,6 @@
         </button>
       </div>
 
-      <!-- Opciones de color ojos -->
       <div *ngIf="opcionesVisibles === 'color_ojos'" class="opciones-grupo">
         <button 
           *ngFor="let opcion of getOpcionesColorOjos()" 
@@ -129,7 +127,6 @@
         </button>
       </div>
 
-      <!-- Opciones de tono piel -->
       <div *ngIf="opcionesVisibles === 'tono_piel'" class="opciones-grupo">
         <button 
           *ngFor="let opcion of getOpcionesTonoPiel()" 
@@ -140,14 +137,11 @@
         </button>
       </div>
 
-      <!-- Opciones de anteojos -->
       <div *ngIf="opcionesVisibles === 'usa_anteojos'" class="opciones-grupo">
-        <!-- Este grupo ya no se muestra porque la pregunta es directa -->
       </div>
     </div>
   </div>
 
-  <!-- Sección para arriesgar -->
   <div class="seccion-arriesgar" *ngIf="!juegoTerminado">
     <div class="arriesgar-container">
       <input 
@@ -162,10 +156,10 @@
     </div>
   </div>
 
-  <!-- Botón reiniciar -->
   <div class="seccion-reiniciar" *ngIf="juegoTerminado">
     <button class="boton-reiniciar" (click)="reiniciarJuego()">
       Jugar de nuevo
     </button>
   </div>
+</div>
 </div>
