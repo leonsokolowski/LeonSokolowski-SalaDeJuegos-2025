@@ -19,8 +19,30 @@ export class DatabaseService {
 
   async traerUsuarioActual()
   {
-    const { data, error } = await this.sb.supabase.from("usuarios").select("*").eq("correo", this.auth.usuarioActual?.email);
-    return data;
+    try {
+      console.log("Buscando usuario con correo:", this.auth.usuarioActual?.email);
+      
+      if (!this.auth.usuarioActual?.email) {
+        console.warn("Email del usuario actual no disponible");
+        return [];
+      }
+      
+      const { data, error } = await this.sb.supabase
+        .from("usuarios")
+        .select("*")
+        .eq("correo", this.auth.usuarioActual.email);
+      
+      if (error) {
+        console.error("Error al obtener usuario actual:", error);
+        return [];
+      }
+      
+      console.log("Usuario encontrado:", data);
+      return data;
+    } catch (e) {
+      console.error("Excepción al obtener usuario actual:", e);
+      return [];
+    }
   }
 
   async registrarUsuario(usuario: Usuario) {
@@ -72,6 +94,38 @@ export class DatabaseService {
       console.error("Error al registrar resultado:", error);
     } else {
       console.log("Resultado registrado:", data);
+    }
+  }
+
+  async listarMensajes()
+  {
+    // Corrección del paréntesis extra en la consulta original
+    const { data, error } = await this.sb.supabase.from("mensajes").select("id_mensaje, id_usuario, usuarios (nombre), mensaje, fecha");
+    
+    if (error) {
+      console.error('Error al listar mensajes:', error);
+      return [];
+    }
+    
+    console.log("Mensajes cargados:", data);
+    return data as any[];
+  }
+
+  async insertarMensaje(mensaje: string, id_usuario: number) {
+    try {
+      console.log("Insertando mensaje para usuario ID:", id_usuario);
+      const { data, error } = await this.sb.supabase
+        .from("mensajes")
+        .insert({ mensaje: mensaje, id_usuario: id_usuario });
+        
+      if (error) {
+        console.error("Error al insertar mensaje:", error);
+        throw error;
+      }
+      return data;
+    } catch (error) {
+      console.error('Error al insertar mensaje:', error);
+      throw error;
     }
   }
 }
